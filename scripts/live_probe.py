@@ -18,7 +18,7 @@ import urllib.request
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RPC = "https://studio.genlayer.com/api"
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
-DEMO_COMMIT = "5066c0034793740d366906bc656f55598fd73b31"      # overridden by --commit
+DEMO_COMMIT = "1ebb88b5f305e6be271ca47ddd7a3fe5beec1437"      # overridden by --commit
 AMOUNT = 2 * 10 ** 16
 BOND = 10 ** 16
 

@@ -6,6 +6,7 @@ while the mocks stand in for the validator's own view of the web and the model.
 import datetime
 import json
 import os
+import pathlib
 import sys
 
 import pytest
@@ -51,6 +52,36 @@ def _tolerate_windows_unlink():
 
 
 _tolerate_windows_unlink()
+
+
+# -- the contract is UTF-8; a Windows console is not --------------------------
+# gltest reads the first 2000 bytes of the contract to find the pinned runner,
+# with open(path, "r") and no encoding, so it decodes with the platform default.
+# On a Windows checkout that is cp1252, which cannot read the section rules in
+# our source, and every test errors at deploy before the contract is even
+# parsed. Reading the file as what it is fixes it without changing a byte of
+# the deployed source.
+def _read_the_contract_as_utf8():
+    try:
+        from gltest.direct import sdk_loader as _sdk
+    except ImportError:
+        return
+    original = _sdk.parse_contract_header
+    if getattr(original, "_pact_shim", False):
+        return
+
+    import re as _re
+
+    def parse_utf8(contract_path):
+        content = pathlib.Path(contract_path).read_text(encoding="utf-8")[:2000]
+        return {name: value for name, value
+                in _re.findall(r'"Depends":\s*"([^:]+):([^"]+)"', content)}
+
+    parse_utf8._pact_shim = True
+    _sdk.parse_contract_header = parse_utf8
+
+
+_read_the_contract_as_utf8()
 
 
 # -- warp() must move the transaction clock -----------------------------------
