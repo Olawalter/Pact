@@ -2,16 +2,16 @@
   "network": "GenLayer StudioNet",
   "chain_id": 61999,
   "rpc": "https://studio.genlayer.com/api",
-  "explorer": "https://explorer-studio.genlayer.com/address/0x9eBFcF083a9C1a21480f7420a9951EC1eEeDe9bB",
-  "contract_address": "0x9eBFcF083a9C1a21480f7420a9951EC1eEeDe9bB",
-  "deploy_tx": "0x242138abd804dcf538f3d820f19281ad390beb202de205fea96d7b0dafdb3e52",
+  "explorer": "https://explorer-studio.genlayer.com/address/0xDB2EcD9fcACfa3B639de3a8b8d91De30A746233f",
+  "contract_address": "0xDB2EcD9fcACfa3B639de3a8b8d91De30A746233f",
+  "deploy_tx": "0xd73985a232bada103934cd8b5de57d60c0f5e92aea9a8ce094a85c7b878a018a",
   "deploy_status": "FINALIZED",
   "deploy_consensus": "MAJORITY_AGREE",
   "source": "contracts/PACT.py",
-  "source_commit": "501deeb737d7f02e713a7e88046f788e596ae595",
-  "source_sha256": "4a7ba3bc206e0cbee4e911799de1cc3a3b452408206769358ccfc1bd265c7cbe",
-  "source_bytes": 77831,
-  "onchain_sha256": "4a7ba3bc206e0cbee4e911799de1cc3a3b452408206769358ccfc1bd265c7cbe",
+  "source_commit": "c6ab44e08d255ed122ae9a28897039e5e2ac1cef",
+  "source_sha256": "43920e230e5d05bdaf8593901be700f9f75f9065165702910ccfad58345b029a",
+  "source_bytes": 78853,
+  "onchain_sha256": "43920e230e5d05bdaf8593901be700f9f75f9065165702910ccfad58345b029a",
   "byte_identical": true,
   "protocol_version": "PACT-1.0.0",
   "policy_rules": "PACT-RULES-1",
@@ -40,5 +40,5 @@
     "request_adjudication",
     "submit_evidence"
   ],
-  "deployed_at": "2026-09-28T18:17:56Z"
+  "deployed_at": "2026-09-28T18:30:09Z"
 }

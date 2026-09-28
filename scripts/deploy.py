@@ -58,6 +58,34 @@ def rpc(method, params, attempts=6):
             time.sleep(5 + 5 * i)
 
 
+def patient_transport():
+    """The public endpoint drops connections and rate limits (30 a minute, 500 an
+    hour, refused with -32029 before the call is processed). Retry transport
+    failures and wait out the allowance; a refused call did nothing."""
+    from genlayer_py.provider.provider import GenLayerProvider
+    original = GenLayerProvider.make_request
+
+    def patient(self, method, params):
+        for attempt in range(40):
+            try:
+                return original(self, method, params)
+            except Exception as err:
+                text = str(err)
+                if "-32029" in text or "Rate limit" in text:
+                    wait = re.search(r"retry_after_seconds\W+(\d+)", text)
+                    time.sleep((int(wait.group(1)) if wait else 65) + 5)
+                    continue
+                if any(s in text for s in ("Connection", "timed out", "SSL", "502", "503", "504",
+                                           "RemoteDisconnected", "reset", "temporarily unavailable",
+                                           "-32002", "<!DOCTYPE")):
+                    time.sleep(10)
+                    continue
+                raise
+        return original(self, method, params)
+
+    GenLayerProvider.make_request = patient
+
+
 def git_source(revision: str) -> bytes:
     """The contract exactly as git stores it, so a clean checkout deploys the
     same bytes."""
@@ -76,6 +104,7 @@ def main() -> int:
     from genlayer_py.chains import studionet
     from genlayer_py.types import TransactionStatus
 
+    patient_transport()
     source = git_source(args.revision)
     digest = hashlib.sha256(source).hexdigest()
     commit = subprocess.run(["git", "rev-parse", args.revision], cwd=ROOT, capture_output=True,
