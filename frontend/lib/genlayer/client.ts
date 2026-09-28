@@ -1,5 +1,5 @@
 import { createClient } from "genlayer-js";
-import type { GenLayerClient as SdkClient } from "genlayer-js/types";
+import type { GenLayerChain, GenLayerClient as SdkClient } from "genlayer-js/types";
 
 import { NETWORKS } from "@/lib/genlayer/network";
 import type { AppConfig } from "@/lib/genlayer/config";
@@ -13,7 +13,7 @@ import type { AppConfig } from "@/lib/genlayer/config";
  *     visitor is about to sign something.
  */
 
-export type GenLayerClient = SdkClient;
+export type GenLayerClient = SdkClient<GenLayerChain>;
 
 export function readClient(config: AppConfig): GenLayerClient {
   return createClient({

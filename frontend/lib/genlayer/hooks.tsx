@@ -68,14 +68,18 @@ export function useRead<T>(key: string, run: (c: GenLayerClient, cfg: AppConfig)
     let live = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const hidden = () => typeof document !== "undefined" && document.visibilityState === "hidden";
+    let loadedOnce = false;
     const tick = async () => {
-      if (pollMs && hidden()) {
+      // a hidden tab stops polling, but always takes its first read: a page
+      // opened in the background must still have something to show
+      if (pollMs && hidden() && loadedOnce) {
         timer = setTimeout(tick, pollMs);
         return;
       }
       let done = false;
       try {
         const value = await runRef.current(client, config);
+        loadedOnce = true;
         done = !!untilRef.current?.(value);
         if (live) setState({ key: readKey, data: value });
       } catch (err) {
@@ -113,7 +117,7 @@ export type AgreementView = { agreement: Agreement; evidence: Evidence[]; verdic
 export const isOver = (v: AgreementView) =>
   v.agreement.lifecycle === "CONSEQUENCE_EXECUTED" || v.agreement.lifecycle === "CANCELLED";
 
-export function useAgreement(id: string, pollMs?: number): Query<AgreementView> {
+export function useAgreement(id: string, pollMs?: number, enabled = true): Query<AgreementView> {
   return useRead(`agreement:${id}`, async (c, cfg) => {
     const agreement = await reads.agreement(c, cfg, id);
     const [evidence, verdicts, history] = await Promise.all([
@@ -123,7 +127,7 @@ export function useAgreement(id: string, pollMs?: number): Query<AgreementView> 
     ]);
     return { agreement, evidence: evidence.items, verdicts: verdicts.items,
              history: [...history.items].reverse() };
-  }, { pollMs, until: isOver });
+  }, { pollMs, until: isOver, enabled: enabled && !!id });
 }
 
 export const useAgreements = (limit = 50) =>

@@ -4,7 +4,7 @@
   "private": true,
   "engines": { "node": ">=20.9" },
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 3261",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",

@@ -120,7 +120,7 @@ export async function runWrite(o: RunOptions): Promise<TxState> {
   const see = (status?: string) => {
     if (!status) return;
     const statuses = state.statuses.at(-1) === status ? state.statuses : [...state.statuses, status];
-    const step = status === "PENDING" ? "PENDING"
+    const step: Step | undefined = status === "PENDING" ? "PENDING"
       : status === "PROPOSING" ? "LEADER_PROPOSED"
       : status === "COMMITTING" || status === "REVEALING" ? "VALIDATING"
       : status === "FINALIZED" ? "FINALIZED" : undefined;

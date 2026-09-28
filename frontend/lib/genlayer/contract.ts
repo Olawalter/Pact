@@ -32,6 +32,9 @@ export type Materiality = (typeof MATERIALITIES)[number];
 export type EvidenceKind = (typeof EVIDENCE_KINDS)[number];
 
 const atto = z.string().regex(/^\d+$/);
+// a GenLayer calldata answer carries large integers as strings, small ones as
+// numbers, so any amount inside the locked definition may arrive either way
+const amount = z.union([z.number(), z.string().regex(/^\d+$/)]).transform(String);
 
 export const constraintSchema = z.object({
   id: z.string(),
@@ -51,8 +54,8 @@ export const definitionSchema = z.object({
   }),
   consequence_policy: z.object({
     economic: z.boolean(),
-    amount_required: z.number(),
-    bond_required: z.number(),
+    amount_required: amount,
+    bond_required: amount,
     fulfilled_bps: z.number(),
     partially_fulfilled_bps: z.number(),
     breached_bps: z.number(),
@@ -270,7 +273,7 @@ export const verbCall = (verb: SimpleVerb, id: string): Call =>
 // ── reads ───────────────────────────────────────────────────────────────────
 
 const call = async <T>(client: GenLayerClient, config: AppConfig, functionName: string,
-                       args: unknown[], schema: z.ZodType<T>): Promise<T> => {
+                       args: (string | number)[], schema: z.ZodType<T>): Promise<T> => {
   const value = await client.readContract({ address: config.contractAddress, functionName, args });
   return checkAnswer(schema, value, functionName);
 };

@@ -1,0 +1,324 @@
+{
+  "ctor": {
+    "kwparams": {},
+    "params": []
+  },
+  "methods": {
+    "acknowledge_evidence": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "evidence_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "null"
+    },
+    "cancel_agreement": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "null"
+    },
+    "create_agreement": {
+      "kwparams": {},
+      "params": [
+        [
+          "title",
+          "string"
+        ],
+        [
+          "terms",
+          "string"
+        ],
+        [
+          "counterparty",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    },
+    "execute_consequence": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    },
+    "finalize_verdict": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "null"
+    },
+    "fund_agreement": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": true,
+      "readonly": false,
+      "ret": "string"
+    },
+    "get_agreement": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "get_evidence": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "evidence_id",
+          "string"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "get_history": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "offset",
+          "int"
+        ],
+        [
+          "limit",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "get_proposal": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "get_protocol_info": {
+      "kwparams": {},
+      "params": [],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "get_verdict": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "round_index",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "list_agreements": {
+      "kwparams": {},
+      "params": [
+        [
+          "offset",
+          "int"
+        ],
+        [
+          "limit",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "list_by_party": {
+      "kwparams": {},
+      "params": [
+        [
+          "party",
+          "string"
+        ],
+        [
+          "offset",
+          "int"
+        ],
+        [
+          "limit",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "list_evidence": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "offset",
+          "int"
+        ],
+        [
+          "limit",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "list_transitions": {
+      "kwparams": {},
+      "params": [
+        [
+          "offset",
+          "int"
+        ],
+        [
+          "limit",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "list_verdicts": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "offset",
+          "int"
+        ],
+        [
+          "limit",
+          "int"
+        ]
+      ],
+      "readonly": true,
+      "ret": "dict"
+    },
+    "lock_agreement": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "definition_json",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    },
+    "propose_constraints": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    },
+    "recover": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    },
+    "request_adjudication": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    },
+    "submit_evidence": {
+      "kwparams": {},
+      "params": [
+        [
+          "agreement_id",
+          "string"
+        ],
+        [
+          "evidence_json",
+          "string"
+        ]
+      ],
+      "payable": false,
+      "readonly": false,
+      "ret": "string"
+    }
+  }
+}
