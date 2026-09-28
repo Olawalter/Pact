@@ -261,3 +261,17 @@ def test_the_split_is_arithmetic_on_the_locked_policy_alone(mod):
     assert mod._split_payout("BREACHED", policy, 1000, 100) == (1025, 75)
     assert mod._split_payout("INCONCLUSIVE", policy, 1000, 100) == (1000, 100)
     assert sum(mod._split_payout("BREACHED", policy, 999, 99)) == 999 + 99, "nothing is created or lost"
+
+
+def test_the_bond_must_be_exactly_what_the_policy_names(pact, direct_vm, creator, agent):
+    aid = create(pact, direct_vm, creator, agent)
+    lock(pact, direct_vm, creator, aid)
+    fund(pact, direct_vm, creator, aid, AMOUNT)
+    direct_vm.sender = agent
+    direct_vm.value = BOND // 2
+    try:
+        with direct_vm.expect_revert("the bond must be exactly"):
+            pact.fund_agreement(aid)
+    finally:
+        direct_vm.value = 0
+    assert pact.get_agreement(aid)["bond_deposited"] == "0"

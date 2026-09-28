@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="PACT">
+  <rect width="32" height="32" rx="6" fill="#0b0f14"/>
+  <path d="M8 9h16M8 14h11M8 19h7" stroke="#f7f9fc" stroke-width="2" stroke-linecap="square"/>
+  <circle cx="22.5" cy="21.5" r="4.5" fill="#2563eb"/>
+  <path d="M20.4 21.6l1.6 1.6 3-3.2" stroke="#ffffff" stroke-width="1.8" fill="none"
+        stroke-linecap="square"/>
+</svg>

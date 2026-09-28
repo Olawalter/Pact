@@ -76,7 +76,8 @@ MUTANTS = [
     ("evidence the party did not register still decides", 'and constraint["id"] in rows_by_id[c]["related_constraints"]', ""),
     ("an unread item still decides", 'and rows_by_id[c]["availability"] in (A_AVAILABLE, A_SUBMITTED)', ""),
     ("any status name is accepted", "if status not in CONSTRAINT_STATUSES:", "if False:"),
-    ("a fence is deleted, not replaced", 'ANGLE_RUN.sub(" ", str(text or ""))', 'ANGLE_RUN.sub("", str(text or ""))'),
+    # the original bug: literal fences deleted, so their neighbours join into a new one
+    ("fences deleted literally", 'ANGLE_RUN.sub(" ", str(text or ""))', 're.sub(r"<<<|>>>", "", str(text or ""))'),
     ("binary noise is a page", "if len(text[:4000]) and printable / len(text[:4000]) < 0.8:", "if False:"),
 
     # ── corroboration and derivation ──
@@ -137,6 +138,10 @@ MUTANTS = [
 # Guards no public call can reach, kept as defence in depth. Removing one
 # changes nothing observable, so no test can kill it; each reason says why.
 EQUIVALENT = {
+    "an empty ledger is settled again":
+        "execute_consequence requires the agreement to be FINALIZED, which it can only reach through an "
+        "adjudication that required it to be ACTIVE, which required the full amount and bond to be "
+        "deposited; a settled agreement is CONSEQUENCE_EXECUTED, so the ledger is never zero here",
     "the boundary accepts evidence ids that do not exist":
         "a reading keeps only ids that exist on this agreement, so a well formed round never carries an "
         "unknown id; the check guards a forged result, which the fingerprint comparison already refuses",

@@ -534,7 +534,10 @@ def _fence(row: dict, body: str) -> str:
             f'"submitted_by": "{row["submitter"][:10]}", '
             f'"label": "{_sanitize(row["label"], MAX_LABEL)}", '
             f'"availability": "{row["availability"]}"}}')
-    return f"<<<EVIDENCE {eid}>>>\n{head}\n{_sanitize(body, MAX_EXCERPT_CHARS)}\n<<<END EVIDENCE {eid}>>>"
+    # the body was sanitized where it entered the record, at the fetch; fencing
+    # it again here would hide a sanitizer that removes fences instead of
+    # replacing them, so this only assembles
+    return f"<<<EVIDENCE {eid}>>>\n{head}\n{body}\n<<<END EVIDENCE {eid}>>>"
 
 
 def _build_prompt(terms: str, constraint: dict, rows: list, bodies: dict) -> str:

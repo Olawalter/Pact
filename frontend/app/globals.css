@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* PACT's visual identity, fixed by the specification: blue, black and white,
+   roughly 70% light, 20% black, 10% blue. The feel is an institution's case
+   file: rules instead of shadows, small capitals for labels, a serif for the
+   words the parties actually agreed, and blue reserved for the one action that
+   matters on a page. */
+
+@theme {
+  --color-ink: #0b0f14;
+  --color-deep: #123b66;
+  --color-signal: #2563eb;
+  --color-paper: #ffffff;
+  --color-soft: #f7f9fc;
+  --color-border: #dce3ea;
+  --color-muted: #64748b;
+
+  --color-satisfied: #0f7a4d;
+  --color-violated: #b0301f;
+  --color-open: #8a5a00;
+  --color-void: #64748b;
+
+  --font-sans: var(--font-franklin), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-soft);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+/* ── structure ─────────────────────────────────────────────────────────── */
+
+.shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 78rem;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 768px) {
+  .shell { padding-inline: 2rem; }
+}
+
+.card {
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 1rem;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
+
+.agreement-text {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: #1a2330;
+}
+
+/* ── controls ──────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  background: var(--color-paper);
+  padding: 0.5rem 0.9rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink);
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.btn:hover:not(:disabled) { background: var(--color-soft); border-color: #c3cedb; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--color-signal);
+  border-color: var(--color-signal);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) { background: #1d4ed8; border-color: #1d4ed8; }
+
+.btn-quiet { border-color: transparent; background: transparent; color: var(--color-deep); }
+.btn-quiet:hover:not(:disabled) { background: #eef2f7; }
+
+.control {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  background: var(--color-paper);
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+  color: var(--color-ink);
+}
+
+.control:focus-visible, .btn:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+.control[aria-invalid="true"] { border-color: var(--color-violated); }
+
+/* ── status ────────────────────────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  padding: 0.05rem 0.4rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.rule { border-top: 1px solid var(--color-border); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
