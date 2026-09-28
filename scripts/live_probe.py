@@ -36,7 +36,7 @@ CONSTRAINTS = [
      "materiality": "MATERIAL"},
     {"type": "EXCLUSION", "requirement": "No fabricated citation appears in the report.",
      "materiality": "MATERIAL"},
-    {"type": "TEMPORAL", "requirement": "The report was delivered before the deadline.",
+    {"type": "TEMPORAL", "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
      "materiality": "MINOR"},
 ]
 
@@ -172,16 +172,17 @@ def main() -> int:
 
     print("\nPHASE evidence")
     both = ["C1", "C2", "C3", "C4", "C5"]
-    write("agent", "submit_evidence", aid, json.dumps(
-        {"kind": "WEB_SOURCE", "source": report, "related_constraints": both,
-         "label": "the delivered report", "source_type": "deliverable"}), label="evidence: report")
+    if args.scenario == "fulfilled":
+        write("agent", "submit_evidence", aid, json.dumps(
+            {"kind": "WEB_SOURCE", "source": report, "related_constraints": both,
+             "label": "the delivered report", "source_type": "deliverable"}), label="evidence: report")
     if args.scenario == "fulfilled":
         write("creator", "submit_evidence", aid, json.dumps(
             {"kind": "WEB_SOURCE", "source": index, "related_constraints": ["C1", "C2", "C3", "C4"],
              "label": "independent index", "source_type": "verification"}), label="evidence: index")
     else:
         write("creator", "submit_evidence", aid, json.dumps(
-            {"kind": "WEB_SOURCE", "source": audit, "related_constraints": ["C1", "C3", "C4"],
+            {"kind": "WEB_SOURCE", "source": audit, "related_constraints": ["C1", "C3", "C4", "C5"],
              "label": "third party audit", "source_type": "audit"}), label="evidence: audit")
         write("agent", "submit_evidence", aid, json.dumps(
             {"kind": "WEB_SOURCE", "source": injection, "related_constraints": ["C1", "C2", "C3", "C4"],
