@@ -141,6 +141,49 @@ def main() -> int:
               f"{gen(settled['amount_deposited'])} and {gen(settled['bond_deposited'])} afterwards.")
             w("")
 
+    recovery = ROOT / "docs" / "live-recovery.json"
+    if recovery.exists():
+        v = json.loads(recovery.read_text(encoding="utf-8"))
+        w("## Nobody ever asked for a verdict")
+        w("")
+        w("A third scenario, run separately by `scripts/live_recovery.py`: an agreement is funded and")
+        w("then nothing happens. No evidence, no round. The deadline passes, the recovery window")
+        w("passes, and the rule locked at the start ends it. This is the path that makes it impossible")
+        w("for GEN to sit in the contract because a question was never answered.")
+        w("")
+        w("| Step | Transaction | Consensus |")
+        w("| --- | --- | --- |")
+        for t in v["transactions"]:
+            votes = ", ".join(f"{n} {vv}" for vv, n in t["votes"].items())
+            note = " -- refused" if t.get("refused") else ""
+            w(f"| {t['step']}{note} | {link(t['tx'])} | {votes} |")
+        w("")
+        early = [t for t in v["transactions"] if t.get("refused")]
+        if early:
+            w(f"Sent too early, and refused: {early[0]['refusal'].replace('[EXPECTED] ', '')}")
+            w("")
+        final = v.get("final") or {}
+        if final:
+            w(f"**{final['result_state']}.** {gen(final['paid_creator'])} returned to the buyer and "
+              f"{gen(final['paid_counterparty'])} returned to the deliverer, under "
+              f"`{((final.get('definition') or {}).get('consequence_policy') or {}).get('recovery_rule', '')}`"
+              ". The agreement holds "
+              f"nothing afterwards, and the recovery was sent by a third account that is not a party "
+              "to it -- whoever sends it, the money can only go to the two recorded parties.")
+            w("")
+        before, after = v.get("balances_before") or {}, v.get("balances_after") or {}
+        if before and after:
+            w("| Party | Before | After |")
+            w("| --- | --- | --- |")
+            for who in before:
+                w(f"| {who} | {gen(before[who])} | {gen(after[who])} |")
+            w("")
+            w("*Those two figures were read moments apart, and GenLayer applies a transfer at")
+            w("finality, so a read taken immediately after acceptance can still show the old balance.")
+            w("The ledger above is what the contract recorded; the arrival is visible on the")
+            w("explorer.*")
+            w("")
+
     if r.get("walls"):
         w("## What the contract refused")
         w("")

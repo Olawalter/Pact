@@ -39,8 +39,10 @@ export default function Explore() {
       || a.counterparty.toLowerCase().includes(needle));
   }, [agreements.data, filter, query]);
 
+  // minmax(0,1fr): an auto grid track will not shrink below the widest thing in
+  // it, so on a phone one long line pushes the whole page sideways
   return (
-    <div className="grid gap-6">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-6">
       <header className="grid gap-2">
         <p className="label">Explore</p>
         <h1 className="text-2xl">Agreements on this contract</h1>
@@ -51,7 +53,11 @@ export default function Explore() {
       </header>
 
       <div className="flex flex-wrap items-center gap-2">
-        <div className="no-scrollbar flex gap-1 overflow-x-auto" role="tablist" aria-label="Filter">
+        {/* min-w-0: a scrolling strip is a flex item, and a flex item will not
+            shrink below its content unless it is told it may, which on a phone
+            pushes the whole page wider than the screen */}
+        <div className="no-scrollbar flex min-w-0 flex-1 gap-1 overflow-x-auto"
+             role="tablist" aria-label="Filter">
           {(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).map((key) => (
             <button key={key} type="button" role="tab" aria-selected={filter === key}
                     onClick={() => setFilter(key)}
@@ -62,9 +68,9 @@ export default function Explore() {
             </button>
           ))}
         </div>
-        <label className="ml-auto flex items-center gap-2 text-sm">
+        <label className="flex w-full min-w-0 items-center gap-2 text-sm sm:ml-auto sm:w-auto">
           <span className="sr-only">Search by identifier, title or party</span>
-          <input className="control w-56" placeholder="PACT id, title or party address"
+          <input className="control w-full sm:w-56" placeholder="PACT id, title or party address"
                  value={query} onChange={(e) => setQuery(e.target.value)} />
         </label>
       </div>

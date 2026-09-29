@@ -9,7 +9,8 @@ import { AvailabilityChip, CorroborationChip, LifecycleChip, ResultChip,
 import { EvidencePanel } from "@/components/evidence/evidence-panel";
 import { configResult } from "@/lib/genlayer/config";
 import { DETAIL_POLL_MS, useAgreement, useNow } from "@/lib/genlayer/hooks";
-import { agreementLabel, custodyWords, findingWords, formatGen, formatTime, KIND_WORDS,
+import { agreementLabel, custodyWords, findingWords, formatGen, formatTime, humaniseNote,
+         KIND_WORDS,
          LIFECYCLE_WORDS, MATERIALITY_WORDS, RECOVERY_WORDS, RESULT_WORDS, TYPE_WORDS,
          verdictHeadline } from "@/lib/format/present";
 import { shortAddress } from "@/lib/wallet/wallet";
@@ -37,8 +38,10 @@ export default function AgreementPage({ params }: { params: Promise<{ id: string
   const definition = agreement.definition;
   const explorer = configResult.ok ? configResult.config.explorer : "";
 
+  // minmax(0,1fr): an auto grid track will not shrink below the widest thing in
+  // it, so on a phone one long line pushes the whole page sideways
   return (
-    <div className="grid gap-6">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-6">
       <header className="grid gap-3 border-b border-[var(--color-border)] pb-6">
         <div className="flex flex-wrap items-center gap-3">
           <span className="mono text-sm text-[var(--color-deep)]">{agreementLabel(agreement.agreement_id)}</span>
@@ -196,7 +199,7 @@ export default function AgreementPage({ params }: { params: Promise<{ id: string
                   <span>
                     {h.from ? `${LIFECYCLE_WORDS[h.from as keyof typeof LIFECYCLE_WORDS] ?? h.from} → ` : ""}
                     {LIFECYCLE_WORDS[h.to as keyof typeof LIFECYCLE_WORDS] ?? h.to}
-                    {h.note ? <span className="block text-xs text-[var(--color-muted)]">{h.note}</span> : null}
+                    {h.note ? <span className="block text-xs text-[var(--color-muted)]">{humaniseNote(h.note)}</span> : null}
                   </span>
                 </li>
               ))}

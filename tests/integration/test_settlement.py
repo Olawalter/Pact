@@ -34,6 +34,10 @@ class TestCustody:
         world.settled()
         wall = world.live.record["walls"]["fund_twice"]
         assert wall["refused"], wall
+        assert wall["refunded"], "a refused deposit must refuse by returning, not by raising"
+        assert wall["execution"] == "SUCCESS", (
+            "a raise would roll back the refund along with everything else", wall)
+        assert "[REFUNDED]" in wall["refusal"], wall
         assert wall["consensus"] == "MAJORITY_AGREE", wall
         settled = world.live.record["agreements"]["fulfilled"]["settled"]
         paid = int(settled["paid_creator"]) + int(settled["paid_counterparty"])
@@ -96,6 +100,18 @@ class TestAfterwards:
         settled = world.live.record["agreements"]["fulfilled"]["settled"]
         assert agreement["paid_creator"] == settled["paid_creator"]
         assert agreement["paid_counterparty"] == settled["paid_counterparty"]
+
+    def test_the_chain_and_the_ledger_agree_about_what_the_contract_holds(self, world):
+        """The assertion that was missing. An earlier deployment refused a second
+        funding by raising, which rolled back its own refund, so the contract held
+        GEN that no ledger recorded: its balance exceeded total_custody by exactly
+        the refused amount. Both numbers are read live, now, from the chain."""
+        world.settled()
+        balance = world.live.contract_balance()
+        custody = int(world.live.read("get_protocol_info")["total_custody"])
+        assert balance == custody, (
+            f"the chain says the contract holds {balance} atto and its ledger says {custody}: "
+            f"{balance - custody} atto is unaccounted for")
 
     def test_the_protocol_ledger_matches_what_the_agreements_hold(self, world):
         world.settled()

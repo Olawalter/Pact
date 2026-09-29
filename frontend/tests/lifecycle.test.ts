@@ -5,7 +5,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { initialTx, refusalOf, rungsFor, runWrite, isAccepted, type TxState } from "@/lib/genlayer/lifecycle";
+import { initialTx, rungsFor, runWrite, isAccepted, type TxState } from "@/lib/genlayer/lifecycle";
 import { refusalSentence, walletFailure, isMissing } from "@/lib/genlayer/errors";
 import type { AppConfig } from "@/lib/genlayer/config";
 

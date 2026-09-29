@@ -5,7 +5,7 @@ Three minutes. Everything on screen is the deployed contract on StudioNet; nothi
 **Before recording**
 
 - Wallet on StudioNet (chain `61999`), funded.
-- `NEXT_PUBLIC_PACT_CONTRACT_ADDRESS` set to `0x36d759366baF6d9A531dAD4Fe134795A3c812989`, app running.
+- `NEXT_PUBLIC_PACT_CONTRACT_ADDRESS` set to `0xdba02A566960639FF86C6dBe81cb33D511254Ba2`, app running.
 - Two browser tabs: the app, and the explorer at the contract address.
 - One agreement already settled from the live run, open at its detail page, so the finished record
   can be shown without waiting for consensus on camera.

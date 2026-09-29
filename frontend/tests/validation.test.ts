@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 
 import { blankConstraint, blankDraft, definitionFrom, evidenceFrom, originOf, validateDraft,
          validateEvidence, type Draft, type EvidenceDraft } from "@/lib/validation/agreement";
-import { formatGen, toAtto } from "@/lib/format/present";
+import { formatGen, humaniseNote, toAtto } from "@/lib/format/present";
 
 const NOW = 1_800_000_000;
 
@@ -127,6 +127,20 @@ describe("the evidence a form may register", () => {
     expect(originOf("https://www.reports.example.test/a")).toBe("example.test");
     expect(originOf("https://news.bbc.co.uk/story")).toBe("bbc.co.uk");
     expect(originOf("not a url")).toBe("");
+  });
+});
+
+describe("what the contract wrote, put into words", () => {
+  it("shows an amount in a history note as GEN, never as atto", () => {
+    expect(humaniseNote("BREACHED: 5000000000000000 to the counterparty, "
+                        + "25000000000000000 to the creator"))
+      .toBe("BREACHED: 0.005 GEN to the counterparty, 0.025 GEN to the creator");
+  });
+
+  it("leaves ordinary numbers alone", () => {
+    expect(humaniseNote("funded and in force")).toBe("funded and in force");
+    expect(humaniseNote("locked under d7ec2e92dc8cbb63")).toBe("locked under d7ec2e92dc8cbb63");
+    expect(humaniseNote("round 2 of 4")).toBe("round 2 of 4");
   });
 });
 

@@ -105,6 +105,17 @@ export function formatGen(atto: string | bigint): string {
   return `${whole}${fraction ? `.${fraction.slice(0, 6)}` : ""} GEN`;
 }
 
+/**
+ * A note the contract wrote, put into words a person reads.
+ *
+ * The contract records amounts in atto, because that is what it holds, and a
+ * history line like "5000000000000000 to the counterparty" is a number nobody
+ * can read at a glance. Every run of twelve or more digits is an amount, and is
+ * shown as GEN.
+ */
+export const humaniseNote = (note: string): string =>
+  (note || "").replace(/\b\d{12,}\b/g, (digits) => formatGen(digits));
+
 export const toAtto = (gen: string): bigint | null => {
   const text = gen.trim();
   if (!/^\d+(\.\d{1,18})?$/.test(text)) return null;

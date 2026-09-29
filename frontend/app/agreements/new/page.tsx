@@ -113,8 +113,10 @@ export default function NewAgreement() {
 
   const deadlineLocal = new Date(draft.deadline * 1000).toISOString().slice(0, 16);
 
+  // minmax(0,1fr): an auto grid track will not shrink below the widest thing in
+  // it, so on a phone one long line pushes the whole page sideways
   return (
-    <div className="grid gap-6">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-6">
       <header className="grid gap-2">
         <p className="label">Create agreement</p>
         <h1 className="text-2xl">Write it in your own words, then make the requirements explicit</h1>

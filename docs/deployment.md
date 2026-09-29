@@ -6,8 +6,8 @@
 | --- | --- |
 | Network | GenLayer StudioNet, chain `61999` |
 | RPC | `https://studio.genlayer.com/api` |
-| Contract | `0x36d759366baF6d9A531dAD4Fe134795A3c812989` |
-| Explorer | [address](https://explorer-studio.genlayer.com/address/0x36d759366baF6d9A531dAD4Fe134795A3c812989) |
+| Contract | `0xdba02A566960639FF86C6dBe81cb33D511254Ba2` |
+| Explorer | [address](https://explorer-studio.genlayer.com/address/0xdba02A566960639FF86C6dBe81cb33D511254Ba2) |
 | Runner | `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6` |
 
 The full record -- deploy transaction, source commit, source digest, on-chain digest, and the method
@@ -35,7 +35,7 @@ Two things it handles that are easy to get wrong:
 ## Proving the deployed bytes are this source
 
 ```bash
-python scripts/verify_deployment.py 0x36d759366baF6d9A531dAD4Fe134795A3c812989
+python scripts/verify_deployment.py 0xdba02A566960639FF86C6dBe81cb33D511254Ba2
 ```
 
 It fetches the contract's code and schema from the chain and prints:

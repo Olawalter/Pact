@@ -16,7 +16,7 @@ of the agreement -- and any consequence in GEN -- in ordinary deterministic code
 | | |
 | --- | --- |
 | Network | GenLayer StudioNet, chain `61999` |
-| Contract | [`0x36d759366baF6d9A531dAD4Fe134795A3c812989`](https://explorer-studio.genlayer.com/address/0x36d759366baF6d9A531dAD4Fe134795A3c812989) |
+| Contract | [`0xdba02A566960639FF86C6dBe81cb33D511254Ba2`](https://explorer-studio.genlayer.com/address/0xdba02A566960639FF86C6dBe81cb33D511254Ba2) |
 | Source | [`contracts/PACT.py`](contracts/PACT.py), byte-identical to the deployed bytes ([proof](docs/deployment.json)) |
 | Runner | `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6` |
 | Interface | `frontend/`, Next.js App Router, wallet-signed writes, no server of its own |

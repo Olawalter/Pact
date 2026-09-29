@@ -93,6 +93,22 @@ def _patch_transport():
     GenLayerProvider.make_request = patient
 
 
+def _returned(leader) -> str:
+    """The leader's return value, as text. GenLayer hands it back base64-encoded
+    calldata, so the readable part is what survives stripping the framing."""
+    import base64
+    payload = leader.get("result")
+    if isinstance(payload, dict):
+        payload = payload.get("payload")
+    if not isinstance(payload, str):
+        return ""
+    try:
+        raw = base64.b64decode(payload, validate=False)
+    except Exception:
+        return ""
+    return "".join(chr(b) if 32 <= b < 127 else " " for b in raw).strip()
+
+
 def _hex(tx):
     return tx.hex() if hasattr(tx, "hex") else str(tx)
 
@@ -150,6 +166,15 @@ class Live:
         if entry["refused"]:
             payload = (leader.get("result") or {})
             entry["refusal"] = str(payload.get("payload") or payload)[:200]
+        else:
+            # Funding is the only payable write, and it refuses by returning
+            # rather than raising, so that the value it sends back survives. A
+            # successful transaction can therefore still be a refusal.
+            returned = _returned(leader)
+            if "[REFUNDED]" in returned:
+                entry["refused"] = True
+                entry["refunded"] = True
+                entry["refusal"] = returned[returned.index("[REFUNDED]"):][:200]
         self.record["transactions"].append(entry)
         print(f"  {entry['step']:<34} {entry['tx'][:18]}...  {entry['status']} {entry['consensus']} "
               f"{entry['execution']} {entry['votes']}"
@@ -159,6 +184,12 @@ class Live:
     def read(self, fn, *args):
         return self.clients["creator"].read_contract(address=self.address, function_name=fn,
                                                      args=list(args))
+
+    def contract_balance(self) -> int:
+        """What the chain says PACT holds, which is not the same question as what
+        PACT's own ledger says it holds. The two must agree."""
+        out = rpc("eth_getBalance", [self.address, "latest"])
+        return int(out, 16) if isinstance(out, str) else int(out)
 
     def tx_facts(self, tx_hash):
         t = rpc("eth_getTransactionByHash", [tx_hash]) or {}

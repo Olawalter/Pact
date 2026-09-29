@@ -1,0 +1,93 @@
+{
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "contract": "0xdba02A566960639FF86C6dBe81cb33D511254Ba2",
+  "scenario": "recovery",
+  "accounts": {
+    "creator": "0x89C2662D9164614a1De58A358fCc0CB31347D72D",
+    "agent": "0xf64ADea0f401112BB561113262ba2D3717eeE1e3",
+    "stranger": "0x19958c6176ADcF74E795F9AaFA3d4eDC7921353C"
+  },
+  "started_at": "2026-09-29T04:32:30Z",
+  "transactions": [
+    {
+      "step": "create_agreement",
+      "function": "create_agreement",
+      "caller": "creator",
+      "tx": "0x0f6bded24861ed1fcafe42bb660ce5a204cd391c8faba37d94f71dbb926564a3",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false,
+      "refusal": ""
+    },
+    {
+      "step": "lock_agreement",
+      "function": "lock_agreement",
+      "caller": "creator",
+      "tx": "0xb5b32c9bcfa9d66369fad1b17c7d270a589ff9082c846b0cbde86b1162180f30",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false,
+      "refusal": ""
+    },
+    {
+      "step": "fund (amount)",
+      "function": "fund_agreement",
+      "caller": "creator",
+      "tx": "0xeb0fbdaa9b0e45caabb220f4d937b56098c7786cf7ed9b975f430a0624108aa6",
+      "value": 20000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 5
+      },
+      "refused": false,
+      "refusal": ""
+    },
+    {
+      "step": "fund (bond)",
+      "function": "fund_agreement",
+      "caller": "agent",
+      "tx": "0xb29634e873a2a3ddaa8475bfcd8c3e79a9d2bed3547d753399e1b977313741c7",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false,
+      "refusal": ""
+    },
+    {
+      "step": "recover before the window",
+      "function": "recover",
+      "caller": "stranger",
+      "tx": "0x95710fa0f8a908c66f6093ef18104018f547409d4850dd6c4e3ff19e94306169",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": true,
+      "refusal": "[EXPECTED] recovery is possible at 1790660627; the transaction time is 1790656421"
+    }
+  ]
+}
