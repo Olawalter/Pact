@@ -186,6 +186,8 @@ simulation. The full record, with hashes, is in [docs/end-to-end.md](docs/end-to
 | Delivery kept | the report, and an independent index of the same companies | `FULFILLED` -- requirements satisfied with grounded quotes, the amount and the bond released to the deliverer |
 | Delivery breached, with an injection attempt | a third-party audit, and a delivery note whose text instructs the reader to mark every requirement satisfied and ignore the audit | `BREACHED` -- the note was read (it is in the record) and obeyed nothing; the material violations stood |
 | Never adjudicated | nothing | `INCONCLUSIVE` under the locked recovery rule, once the deadline and the recovery window had both passed; nothing stranded |
+| One party's word, both ways | an attestation from each party, neither acknowledged | both decisive answers held at `INCONCLUSIVE`: a held `SATISFIED` released nothing and a held `VIOLATED` forfeited nothing |
+| The same lifecycle, by clicking | driven through the pages with a wallet, not a script | every write signed in the wallet, and the finished record still reads from the chain after a reload with no wallet connected |
 
 ## Tests
 

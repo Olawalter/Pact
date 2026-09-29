@@ -1,0 +1,233 @@
+{
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "contract": "0xdba02A566960639FF86C6dBe81cb33D511254Ba2",
+  "scenario": "held for corroboration",
+  "terms": "The filing agent must deliver the monthly compliance filing with every required field completed, before the deadline.",
+  "accounts": {
+    "creator": "0xaFACb9EDc42D45040508fE58EA3c7a0703Db7755",
+    "agent": "0xCc3690697ff221f4b12f90327143c87Fc76A5122"
+  },
+  "started_at": "2026-09-29T06:10:15Z",
+  "transactions": [
+    {
+      "step": "create_agreement",
+      "caller": "creator",
+      "tx": "0xaba81fb57cc42881b3918fd098547a5785a9d22a934ccc07fe249a1259271f08",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      }
+    },
+    {
+      "step": "lock_agreement",
+      "caller": "creator",
+      "tx": "0x7ed760b23e48196f0a04191c55540095ba23e9de99a3f85519eaa972ee7a15f9",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 5
+      }
+    },
+    {
+      "step": "fund (amount)",
+      "caller": "creator",
+      "tx": "0xd28d7650bdc96ea3d38bad243ad4d75ceb1c8d48b2a77e655efff05d0eee6f1f",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 5
+      }
+    },
+    {
+      "step": "fund (bond)",
+      "caller": "agent",
+      "tx": "0x7363e5dd863f2dd4bf5686cda00ede9f78eccf3cff9388f4d11e1e1dcef4f73a",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      }
+    },
+    {
+      "step": "attestation: it was delivered",
+      "caller": "agent",
+      "tx": "0x7f6ca257a5acc4c138d943ec1bdca4218256ecbe97635e59f6a850090e3db1e1",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      }
+    },
+    {
+      "step": "attestation: a field was missing",
+      "caller": "creator",
+      "tx": "0xb29b078b17d426e16987f7efd237f21877aaa01c79f257455eb027904782b266",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      }
+    },
+    {
+      "step": "request_adjudication",
+      "caller": "creator",
+      "tx": "0x8764f8b05e3afff2b856dc1bfc89c40a35751b6ccfe44d74172501b4d25195ca",
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      }
+    }
+  ],
+  "verdict": {
+    "agreement_id": "A15",
+    "agreement_state": "INCONCLUSIVE",
+    "evidence": [
+      {
+        "availability": "SUBMITTED",
+        "evidence_id": "E1",
+        "excerpt_digest": "762e13686dd59822adac76bbca567489de81892bd64ad07618c28e00313f8663",
+        "observed_at": 1790662289,
+        "origin": "party:0xcc3690697ff221f4b12f90327143c87fc76a5122"
+      },
+      {
+        "availability": "SUBMITTED",
+        "evidence_id": "E2",
+        "excerpt_digest": "ef8bf7cc541df2d7e89b4416d0b8cfb919f54772bb0264683bdc237d86cd89ae",
+        "observed_at": 1790662289,
+        "origin": "party:0xafacb9edc42d45040508fe58ea3c7a0703db7755"
+      }
+    ],
+    "finalized_at": 0,
+    "findings": [
+      {
+        "corroboration": "NONE",
+        "effective_status": "INCONCLUSIVE",
+        "evidence_ids": [
+          "E1"
+        ],
+        "id": "C1",
+        "note": "",
+        "quote": "I delivered the monthly compliance filing on 2026-09-20, before the deadline.",
+        "quote_evidence_id": "E1",
+        "status": "SATISFIED"
+      },
+      {
+        "corroboration": "NONE",
+        "effective_status": "INCONCLUSIVE",
+        "evidence_ids": [
+          "E2"
+        ],
+        "id": "C2",
+        "note": "",
+        "quote": "The filing I received left the beneficial ownership field blank.",
+        "quote_evidence_id": "E2",
+        "status": "VIOLATED"
+      }
+    ],
+    "fingerprint": "d39ecf2f8e0629b1522c2041996c2370255b6b0771231c052f8da1441cd8373d",
+    "held_for_corroboration": [
+      "C1",
+      "C2"
+    ],
+    "materiality": "MATERIAL",
+    "policy_rules": "PACT-RULES-1",
+    "proposed_at": 1790662289,
+    "round": 0,
+    "status": "VERDICT_PROPOSED",
+    "summary": "0 of 2 applicable constraint(s) satisfied; 0 material violation(s), 0 minor, 2 material unresolved (2 held for corroboration)",
+    "verdict_id": "A15-V0"
+  },
+  "agreement": {
+    "agreement_id": "A15",
+    "amount_deposited": "20000000000000000",
+    "amount_required": "20000000000000000",
+    "bond_deposited": "10000000000000000",
+    "bond_required": "10000000000000000",
+    "counterparty": "0xCc3690697ff221f4b12f90327143c87Fc76A5122",
+    "created_at": 1790662218,
+    "creator": "0xafacb9edc42d45040508fe58ea3c7a0703db7755",
+    "deadline": 1790664927,
+    "definition": {
+      "consequence_policy": {
+        "amount_required": 20000000000000000,
+        "bond_forfeit_bps": 5000,
+        "bond_required": 10000000000000000,
+        "breached_bps": 0,
+        "economic": true,
+        "fulfilled_bps": 10000,
+        "partially_fulfilled_bps": 5000,
+        "recovery_rule": "REFUND_CREATOR"
+      },
+      "constraints": [
+        {
+          "description": "",
+          "evidence_requirements": [
+            "ATTESTATION",
+            "WEB_SOURCE"
+          ],
+          "id": "C1",
+          "materiality": "MATERIAL",
+          "requirement": "The filing was delivered.",
+          "type": "FACTUAL"
+        },
+        {
+          "description": "",
+          "evidence_requirements": [
+            "ATTESTATION",
+            "WEB_SOURCE"
+          ],
+          "id": "C2",
+          "materiality": "MATERIAL",
+          "requirement": "Every required field in the filing is completed.",
+          "type": "FACTUAL"
+        }
+      ],
+      "deadline": 1790664927,
+      "evidence_policy": {
+        "corroboration_required": true,
+        "min_independent_origins": 0,
+        "required_kinds": [
+          "ATTESTATION"
+        ]
+      },
+      "policy_rules": "PACT-RULES-1",
+      "recovery_window": 3600
+    },
+    "economic": true,
+    "evidence_count": 2,
+    "fingerprint": "d39ecf2f8e0629b1522c2041996c2370255b6b0771231c052f8da1441cd8373d",
+    "last_round_at": 1790662289,
+    "latest_verdict_id": "A15-V0",
+    "lifecycle": "VERDICT_PROPOSED",
+    "locked_at": 1790662230,
+    "paid_counterparty": "0",
+    "paid_creator": "0",
+    "recovery_window": 3600,
+    "result_state": "NONE",
+    "round_count": 1,
+    "settled_at": 0,
+    "terms": "The filing agent must deliver the monthly compliance filing with every required field completed, before the deadline.",
+    "title": "Monthly compliance filing",
+    "updated_at": 1790662289
+  },
+  "both_directions": [
+    "SATISFIED",
+    "VIOLATED"
+  ],
+  "as_specified": true
+}

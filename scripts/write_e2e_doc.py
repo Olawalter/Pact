@@ -153,6 +153,42 @@ def main() -> int:
               f"{gen(settled['amount_deposited'])} and {gen(settled['bond_deposited'])} afterwards.")
             w("")
 
+    held_file = ROOT / "docs" / "live-held.json"
+    if held_file.exists():
+        h = json.loads(held_file.read_text(encoding="utf-8"))
+        verdict = h.get("verdict") or {}
+        w("## One party's word, in both directions")
+        w("")
+        w("The rule that a decisive finding resting only on a party's own attestation is held at")
+        w("`INCONCLUSIVE` is the one that keeps an agreement from turning a claim into a payment. It is")
+        w("also the rule most easily written to favour one side, so this run exercises both directions")
+        w("in the same agreement: the deliverer attests that it delivered, the buyer attests that a")
+        w("field was missing, and neither attestation is acknowledged by the other party.")
+        w("")
+        w("| Step | Transaction | Consensus |")
+        w("| --- | --- | --- |")
+        for t in h["transactions"]:
+            votes = ", ".join(f"{n} {v}" for v, n in t["votes"].items())
+            w(f"| {t['step']} | {link(t['tx'])} | {votes} |")
+        w("")
+        if verdict:
+            w("| | Answered | After the corroboration floor | Support |")
+            w("| --- | --- | --- | --- |")
+            for f in verdict["findings"]:
+                w(f"| `{f['id']}` | {f['status']} | {f['effective_status']} | {f['corroboration']} |")
+            w("")
+            w(f"**{verdict['agreement_state']}.** Held for corroboration: "
+              f"{', '.join(verdict['held_for_corroboration']) or 'nothing'}.")
+            w("")
+            directions = h.get("both_directions") or []
+            if sorted(directions) == ["SATISFIED", "VIOLATED"]:
+                w("Both a `SATISFIED` and a `VIOLATED` were held in the same round, which is the point:")
+                w("the floor is symmetric, and neither party can move value on its own say-so.")
+            elif directions:
+                w(f"The panel answered decisively in one direction this round ({', '.join(directions)}),")
+                w("and that answer was held. The mirror is covered in the direct suite.")
+            w("")
+
     browser = ROOT / "docs" / "ui-run.json"
     if browser.exists():
         b = json.loads(browser.read_text(encoding="utf-8"))
