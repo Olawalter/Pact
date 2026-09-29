@@ -100,7 +100,7 @@ def _hex(tx):
 class Live:
     """One live session: two funded throwaway parties and the record of what happened."""
 
-    def __init__(self):
+    def __init__(self, funded=True):
         from eth_account import Account
         from genlayer_py import create_client
         from genlayer_py.chains import studionet
@@ -111,16 +111,17 @@ class Live:
         self.address = os.environ.get("PACT_CONTRACT_ADDRESS") or json.loads(
             (ROOT / "docs" / "deployment.json").read_text(encoding="utf-8"))["contract_address"]
         self.creator, self.agent = Account.create(), Account.create()
-        for acct in (self.creator, self.agent):
-            rpc("sim_fundAccount", [acct.address, 10 ** 18])
         self.clients = {"creator": create_client(chain=studionet, account=self.creator),
                         "agent": create_client(chain=studionet, account=self.agent)}
         self.accounts = {"creator": self.creator, "agent": self.agent}
-        for name in self.clients:
-            for _ in range(40):
-                if int(self.clients[name].get_balance(self.accounts[name].address)) > 0:
-                    break
-                time.sleep(3)
+        if funded:                        # a replay only reads; it signs nothing
+            for acct in (self.creator, self.agent):
+                rpc("sim_fundAccount", [acct.address, 10 ** 18])
+            for name in self.clients:
+                for _ in range(40):
+                    if int(self.clients[name].get_balance(self.accounts[name].address)) > 0:
+                        break
+                    time.sleep(3)
         self.record = {
             "network": "GenLayer StudioNet", "chain_id": 61999, "contract": self.address,
             "demo_commit": DEMO_COMMIT, "title": TITLE, "terms": TERMS,
@@ -203,15 +204,35 @@ def evidence(source, constraints, label, kind="WEB_SOURCE", text=""):
 
 
 class World:
-    """The phases, each run once however many tests ask for them."""
+    """The phases, each run once however many tests ask for them.
+
+    With PACT_REPLAY=1 the phases are not run at all: the record of an earlier
+    run is loaded and the assertions are checked against it and against the
+    agreements it left on the chain, which are still there and still readable.
+    That makes it cheap to re-check a claim, or to fix a test that was wrong
+    about what the contract says, without spending another forty minutes of
+    consensus. It proves nothing new -- the transactions it reads are the ones
+    the earlier run sent -- so a change to the contract needs a real run.
+    """
 
     def __init__(self, live: Live):
         self.live = live
         self.done = set()
         self.failed = {}
         self.ids = {}
+        self.replaying = os.environ.get("PACT_REPLAY") == "1"
+        if self.replaying:
+            if not RECORD.exists():
+                pytest.skip(f"PACT_REPLAY needs an earlier run's record at {RECORD}")
+            self.live.record = json.loads(RECORD.read_text(encoding="utf-8"))
+            self.ids = {case: entry["agreement_id"]
+                        for case, entry in self.live.record["agreements"].items()}
+            started = self.live.record.get("started_at")
+            print("replaying " + str(RECORD) + " from " + str(started), flush=True)
 
     def _once(self, name, fn):
+        if self.replaying:
+            return
         if name in self.failed:
             raise RuntimeError(f"phase {name} already failed: {self.failed[name]}")
         if name in self.done:
@@ -282,6 +303,10 @@ class World:
             live.record["walls"]["stranger_cancels"] = live.write(
                 "agent", "cancel_agreement", self.ids["fulfilled"],
                 step="cancel by the counterparty (refused)")
+            # what the agreement holds after those refusals: a payable write that
+            # raises is still credited by StudioNet, so this is worth recording
+            live.record["agreements"]["fulfilled"]["after_walls"] = live.read(
+                "get_agreement", self.ids["fulfilled"])
         self._once("fund", run)
 
     # ── evidence ────────────────────────────────────────────────────────────
@@ -310,7 +335,7 @@ class World:
             for case in ("fulfilled", "breached"):
                 live.record["agreements"][case]["evidence"] = live.read(
                     "list_evidence", self.ids[case], 0, 30)
-            live.record["walls"]["stranger_submits"] = live.write(
+            live.record["walls"]["same_source_twice"] = live.write(
                 "agent", "submit_evidence", self.ids["fulfilled"],
                 evidence(f"{DEMO}/delivery-report.md", ["C1"], "the same page again"),
                 step="the same page registered twice (refused)")
@@ -390,7 +415,8 @@ def world():
         pytest.skip("live StudioNet suite; set SKIP_INTEGRATION=0 to run it (about 40 minutes)")
     if not DEMO_COMMIT:
         pytest.skip("set PACT_DEMO_COMMIT to the commit the demonstration pages are pinned at")
-    live = Live()
+    live = Live(funded=os.environ.get("PACT_REPLAY") != "1")
     w = World(live)
     yield w
-    live.save()
+    if not w.replaying:
+        live.save()

@@ -78,21 +78,38 @@ type Receipt = {
   consensus_data?: { leader_receipt?: Array<{ execution_result?: string; result?: unknown }> };
 };
 
-/** The contract's own refusal, decoded from the leader's receipt. */
+/**
+ * The contract's own refusal, decoded from the leader's receipt.
+ *
+ * A refusal usually arrives as an ERROR execution. Funding is the exception: it
+ * is the only payable write, and GenLayer credits a payable transaction's value
+ * before the call runs, so refusing by raising would keep GEN nobody meant to
+ * send. It refuses by returning "[REFUNDED] <reason>" instead -- a transaction
+ * that succeeded, having sent the value straight back -- and that must be shown
+ * as the refusal it is, not as a deposit that worked.
+ */
 export function refusalOf(tx: Receipt): { message: string; kind: FailureKind } | null {
   const leaders = tx.consensus_data?.leader_receipt ?? tx.consensusData?.leaderReceipt ?? [];
   const leader = Array.isArray(leaders) ? leaders[0] : undefined;
   const execution = (leader as { execution_result?: string; executionResult?: string })?.execution_result
     ?? (leader as { executionResult?: string })?.executionResult;
-  if (!execution || execution === "SUCCESS") return null;
-  const payload = (leader as { result?: { payload?: unknown } })?.result?.payload;
+  const text = decodePayload((leader as { result?: { payload?: unknown } })?.result?.payload);
+  if (!execution || execution === "SUCCESS") {
+    const refunded = /\[REFUNDED\]\s*(.*)/.exec(text);
+    if (!refunded) return null;
+    const reason = refusalSentence(refunded[1].trim()) || "The deposit was not accepted.";
+    return { message: `${reason} The GEN was sent back.`, kind: "CONTRACT_REFUSED" };
+  }
+  const message = refusalSentence(text) || "The contract refused this transaction.";
+  return { message, kind: "CONTRACT_REFUSED" };
+}
+
+function decodePayload(payload: unknown): string {
   let text = typeof payload === "string" ? payload : "";
   try {
     if (text && /^[A-Za-z0-9+/=]+$/.test(text)) text = atob(text);
   } catch { /* the payload was not base64; use it as it came */ }
-  const message = refusalSentence(text.replace(/[^\x20-\x7e]+/g, " ").trim())
-    || "The contract refused this transaction.";
-  return { message, kind: "CONTRACT_REFUSED" };
+  return text.replace(/[^\x20-\x7e]+/g, " ").trim();
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

@@ -1,0 +1,125 @@
+name: CI
+
+# Everything here runs without a network and without a deployment: the contract
+# in Direct Mode, the linter, and the interface. The live StudioNet suite is not
+# run in CI -- it costs about forty minutes of real consensus rounds against a
+# shared public network -- and is skipped by default for the same reason.
+
+env:
+  # Both GenLayer tools read the contract with the platform's default encoding.
+  # The source is ASCII so this is belt and braces, not a requirement.
+  PYTHONUTF8: "1"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  contract:
+    name: contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: python -m pip install -r requirements.txt
+
+      - name: Cache the GenVM runner bundle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/genvm-linter
+            ~/.cache/gltest-direct
+          key: genvm-bundle-v0.3.0-rc7
+
+      # On a cold cache gltest asks GitHub for an asset that was renamed, 404s,
+      # and every direct test errors at import while the linter still passes.
+      # This puts the bundle that exists where both tools look for it.
+      - name: Seed the runner bundle
+        run: python scripts/fetch_genvm_bundle.py
+
+      - name: Lint the contract
+        run: genvm-lint check contracts/PACT.py
+
+      - name: The runner must be pinned
+        run: |
+          head -1 contracts/PACT.py | grep -q 'py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6'
+          ! grep -q 'py-genlayer:\(test\|latest\)"' contracts/PACT.py
+
+      - name: Direct Mode suite
+        run: python -m pytest tests/direct -q
+
+      - name: The live suite must still be collectable
+        run: python -m pytest tests/integration -q --collect-only
+
+  mutants:
+    # 87 mutants, each one a real pytest run, so this is the slow job: it runs on
+    # main and on demand rather than on every push to a branch.
+    name: mutants
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: python -m pip install -r requirements.txt
+
+      - name: Cache the GenVM runner bundle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/genvm-linter
+            ~/.cache/gltest-direct
+          key: genvm-bundle-v0.3.0-rc7
+
+      # On a cold cache gltest asks GitHub for an asset that was renamed, 404s,
+      # and every direct test errors at import while the linter still passes.
+      # This puts the bundle that exists where both tools look for it.
+      - name: Seed the runner bundle
+        run: python scripts/fetch_genvm_bundle.py
+
+      - name: Every mutant dies, or is documented as equivalent
+        run: python scripts/mutate.py
+
+  interface:
+    name: interface
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests
+        run: npx vitest run
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_GENLAYER_NETWORK: studionet
+          NEXT_PUBLIC_GENLAYER_CHAIN: "61999"
+          NEXT_PUBLIC_PACT_CONTRACT_ADDRESS: "0x36d759366baF6d9A531dAD4Fe134795A3c812989"
+        run: npm run build

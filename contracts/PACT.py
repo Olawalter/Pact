@@ -25,14 +25,15 @@ from dataclasses import dataclass
 
 from genlayer import *
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # Vocabulary
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 PROTOCOL_VERSION = "PACT-1.0.0"
 POLICY_RULES = "PACT-RULES-1"
 
 ERROR_EXPECTED = "[EXPECTED]"      # a rule of the agreement or protocol was not met
+REFUNDED = "[REFUNDED] "           # a payable write that refused, and sent the value back
 ERROR_EXTERNAL = "[EXTERNAL]"      # external evidence failed the same way on every node
 ERROR_TRANSIENT = "[TRANSIENT]"    # network trouble; two nodes may both see it
 ERROR_LLM = "[LLM_ERROR]"          # the model answered badly; the round rotates
@@ -89,9 +90,9 @@ CORROBORATION = (C_INDEPENDENT, C_BILATERAL, C_NONE)
 
 RECOVERY_RULES = ("REFUND_CREATOR", "SPLIT_EVENLY", "RELEASE_COUNTERPARTY")
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # Bounds
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 MIN_CONSTRAINTS = 1
 MAX_CONSTRAINTS = 12
@@ -143,9 +144,9 @@ PLATFORM_OWNER = {
 }
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # Small helpers
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 def _fail(reason: str) -> typing.NoReturn:
     raise gl.vm.UserError(f"{ERROR_EXPECTED} {reason}")
@@ -171,8 +172,8 @@ def _digest(text: str) -> str:
 def _squash(text) -> str:
     """One spelling of a passage, so two renderings of a page compare equal."""
     s = str(text or "")
-    for a, b in (("’", "'"), ("‘", "'"), ("“", '"'), ("”", '"'),
-                 ("–", "-"), ("—", "-"), (" ", " ")):
+    for a, b in (("\u2019", "'"), ("\u2018", "'"), ("\u201c", '"'), ("\u201d", '"'),
+                 ("\u2013", "-"), ("\u2014", "-"), ("\u00a0", " ")):
         s = s.replace(a, b)
     return re.sub(r"\s+", " ", s).strip().casefold()
 
@@ -321,9 +322,9 @@ def _prefix_compatible(a: str, b: str) -> bool:
     return x.startswith(y) or y.startswith(x)
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # The locked definition
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 def _parse_constraints(raw) -> list:
     if not isinstance(raw, list) or not MIN_CONSTRAINTS <= len(raw) <= MAX_CONSTRAINTS:
@@ -460,9 +461,9 @@ def _fingerprint_of(title: str, terms: str, creator: str, counterparty: str, def
     }))
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # Evidence
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 def _parse_evidence(raw: str, eid: str, constraint_ids: list, submitter: str, now: int) -> dict:
     if not isinstance(raw, str) or len(raw) > MAX_TEXT + 2_000:
@@ -523,9 +524,9 @@ def _parse_evidence(raw: str, eid: str, constraint_ids: list, submitter: str, no
     return row
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 # Reading the evidence (the part that needs judgement)
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 
 def _fence(row: dict, body: str) -> str:
     eid = row["evidence_id"]
@@ -863,7 +864,7 @@ def _split_payout(state: str, policy: dict, amount: int, bond: int):
     return to_creator + forfeit, to_counterparty + (bond - forfeit)
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+# =============================================================================
 class Pact(gl.Contract):
     """Semantic agreements, adjudicated by GenLayer consensus.
 
@@ -888,7 +889,7 @@ class Pact(gl.Contract):
         self.agreement_count = u256(0)
         self.total_custody = u256(0)
 
-    # ── plumbing ─────────────────────────────────────────────────────────────
+    # -- plumbing -------------------------------------------------------------
 
     def _sender(self) -> str:
         return _addr_hex(gl.message.sender_address)
@@ -938,7 +939,13 @@ class Pact(gl.Contract):
             _fail("no recipient for a payment")
         _Payee(Address(to)).emit_transfer(value=u256(amount))
 
-    # ── creating and locking ─────────────────────────────────────────────────
+    def _refund(self, sent: int, reason: str) -> str:
+        """Send an unwanted deposit straight back and say why. The caller must
+        `return` this, never raise afterwards: a raise would undo the refund."""
+        self._send_gen(self._sender(), sent)
+        return REFUNDED + reason
+
+    # -- creating and locking -------------------------------------------------
 
     @gl.public.write
     def create_agreement(self, title: str, terms: str, counterparty: str) -> str:
@@ -1082,25 +1089,30 @@ class Pact(gl.Contract):
         who = self._party(a, self._sender())
         if sent <= 0:
             _fail("attach the deposit as the transaction value")
+
+        # A refusal here must not raise. GenLayer credits a payable transaction's
+        # value to the contract before the call runs, and a raise rolls back the
+        # refund with everything else, so raising here would keep GEN nobody
+        # meant to send and no ledger records. These branches return instead: the
+        # transaction succeeds, having done nothing but send the value back, and
+        # says so in its return value. Nothing else in the contract is payable.
         if not who:
-            self._send_gen(self._sender(), sent)
-            _fail("only a party to this agreement can fund it")
+            return self._refund(sent, "only a party to this agreement can fund it")
         if str(a.lifecycle) != L_LOCKED:
-            self._send_gen(self._sender(), sent)
-            _fail(f"funding is possible while the agreement is LOCKED; it is {a.lifecycle}")
+            return self._refund(sent, f"funding is possible while the agreement is LOCKED; "
+                                      f"it is {a.lifecycle}")
 
         now = _now()
         if who == "creator":
             need = int(a.amount_required) - int(a.amount_deposited)
             if sent != need:                         # the creator's amount, in one payment
-                self._send_gen(self._sender(), sent)
-                _fail(f"the creator's deposit must be exactly {need} atto; {sent} was sent")
+                return self._refund(sent, f"the creator's deposit must be exactly {need} atto; "
+                                          f"{sent} was sent")
             a.amount_deposited = u256(int(a.amount_deposited) + sent)
         else:
             need = int(a.bond_required) - int(a.bond_deposited)
             if sent != need:                         # the counterparty's bond, in one payment
-                self._send_gen(self._sender(), sent)
-                _fail(f"the bond must be exactly {need} atto; {sent} was sent")
+                return self._refund(sent, f"the bond must be exactly {need} atto; {sent} was sent")
             a.bond_deposited = u256(int(a.bond_deposited) + sent)
         self.total_custody = u256(int(self.total_custody) + sent)
         a.updated_at = u256(now)
@@ -1137,7 +1149,7 @@ class Pact(gl.Contract):
         self._send_gen(str(a.creator), amount)
         self._send_gen(str(a.counterparty), bond)
 
-    # ── evidence ─────────────────────────────────────────────────────────────
+    # -- evidence -------------------------------------------------------------
 
     @gl.public.write
     def submit_evidence(self, agreement_id: str, evidence_json: str) -> str:
@@ -1190,7 +1202,7 @@ class Pact(gl.Contract):
         self.evidence[key] = _canon(row)
         a.updated_at = u256(_now())
 
-    # ── adjudication ─────────────────────────────────────────────────────────
+    # -- adjudication ---------------------------------------------------------
 
     def _adjudicate(self, definition: dict, rows: list, terms: str, now: int) -> dict:
         """One adjudication round.
@@ -1406,7 +1418,7 @@ class Pact(gl.Contract):
         a.updated_at = u256(now)
         self._record(a, previous, now, f"finalized {record['agreement_state']}")
 
-    # ── consequence ──────────────────────────────────────────────────────────
+    # -- consequence ----------------------------------------------------------
 
     @gl.public.write
     def execute_consequence(self, agreement_id: str) -> str:
@@ -1477,7 +1489,7 @@ class Pact(gl.Contract):
         self._send_gen(str(a.counterparty), to_counterparty)
         return _canon({"to_creator": str(to_creator), "to_counterparty": str(to_counterparty)})
 
-    # ── views ────────────────────────────────────────────────────────────────
+    # -- views ----------------------------------------------------------------
 
     def _view(self, a: Agreement) -> dict:
         return {

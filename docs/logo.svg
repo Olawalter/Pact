@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" width="420" height="96"
+     role="img" aria-label="PACT - semantic agreements for GenLayer">
+  <rect width="420" height="96" rx="10" fill="#123b66"/>
+  <g stroke="#f7f9fc" stroke-width="4" stroke-linecap="square">
+    <path d="M28 30h44M28 46h32M28 62h20"/>
+  </g>
+  <circle cx="74" cy="62" r="14" fill="#2563eb"/>
+  <path d="M67.5 62.5l4.5 4.5 9-9.5" stroke="#ffffff" stroke-width="4" fill="none"
+        stroke-linecap="square"/>
+  <text x="112" y="46" font-family="Libre Franklin, Helvetica, Arial, sans-serif"
+        font-size="34" font-weight="700" letter-spacing="7" fill="#ffffff">PACT</text>
+  <text x="113" y="70" font-family="Libre Franklin, Helvetica, Arial, sans-serif"
+        font-size="13" letter-spacing="1.6" fill="#a9c2de">SEMANTIC AGREEMENTS FOR GENLAYER</text>
+</svg>

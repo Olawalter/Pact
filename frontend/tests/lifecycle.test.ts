@@ -101,6 +101,31 @@ describe("runWrite", () => {
     expect(final.message).toBe("Adjudication needs an agreement in force; it is LOCKED");
   });
 
+  it("treats a refunded deposit as a refusal, not a deposit that worked", async () => {
+    // funding is the only payable write, and it refuses by returning rather than
+    // raising: GenLayer credits a payable transaction's value before the call
+    // runs, so raising would keep GEN nobody meant to send
+    const refunded = { consensus_data: { leader_receipt: [{ execution_result: "SUCCESS",
+      result: { payload: payload("[REFUNDED] funding is possible while the agreement is LOCKED; it is ACTIVE") } }] } };
+    const { run } = harness(["PENDING", "ACCEPTED"], async () => true, async () => HASH, refunded);
+    await vi.advanceTimersByTimeAsync(30_000);
+    const final = await run;
+    expect(final.failure).toBe("CONTRACT_REFUSED");
+    expect(final.message).toBe(
+      "Funding is possible while the agreement is LOCKED; it is ACTIVE The GEN was sent back.");
+  });
+
+  it("leaves an ordinary successful write alone", async () => {
+    const plain = { consensus_data: { leader_receipt: [{ execution_result: "SUCCESS",
+      result: { payload: payload("ACTIVE") } }] } };
+    const { run } = harness(["PENDING", "ACCEPTED", "FINALIZED"], async () => true,
+                            async () => HASH, plain);
+    await vi.advanceTimersByTimeAsync(200_000);
+    const final = await run;
+    expect(final.phase).toBe("DONE");
+    expect(final.failure).toBeUndefined();
+  });
+
   it("says so when the contract's state never caught up", async () => {
     const { run } = harness(["ACCEPTED"], async () => false);
     await vi.advanceTimersByTimeAsync(300_000);

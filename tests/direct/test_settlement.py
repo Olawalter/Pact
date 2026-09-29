@@ -48,34 +48,77 @@ def test_a_deposit_of_the_wrong_size_comes_straight_back(pact, direct_vm, creato
     direct_vm.sender = creator
     direct_vm.value = AMOUNT - 1
     try:
-        with direct_vm.expect_revert("must be exactly"):
-            pact.fund_agreement(aid)
+        answer = pact.fund_agreement(aid)
     finally:
         direct_vm.value = 0
+    assert answer.startswith("[REFUNDED]") and "must be exactly" in answer, answer
     assert pact.get_agreement(aid)["amount_deposited"] == "0"
 
 
-def test_a_stranger_cannot_fund_and_is_refunded(pact, direct_vm, creator, agent, stranger):
+# A refused deposit must come back. GenLayer credits a payable transaction's
+# value to the contract before the call runs, so a refusal that raises keeps the
+# GEN: the value is credited, the refund is rolled back with everything else, and
+# nothing in the ledger records it. These tests exist because that happened on
+# StudioNet -- 0.02 GEN stranded by a funding sent twice -- and they pin the
+# shape that fixes it: refuse by returning, having sent the value back.
+def test_a_refused_deposit_is_sent_back_and_not_kept(pact, direct_vm, creator, agent, transfers):
+    aid = create(pact, direct_vm, creator, agent)
+    lock(pact, direct_vm, creator, aid)
+    direct_vm.sender = creator
+    direct_vm.value = AMOUNT + 1
+    try:
+        answer = pact.fund_agreement(aid)
+    finally:
+        direct_vm.value = 0
+    assert transfers_to(transfers, hex_of(creator)) == AMOUNT + 1, transfers
+    assert answer.startswith("[REFUNDED]"), answer
+    assert pact.get_agreement(aid)["amount_deposited"] == "0"
+    assert pact.get_protocol_info()["total_custody"] == "0"
+
+
+def test_a_stranger_cannot_fund_and_is_refunded(pact, direct_vm, creator, agent, stranger,
+                                                transfers):
     aid = create(pact, direct_vm, creator, agent)
     lock(pact, direct_vm, creator, aid)
     direct_vm.sender = stranger
     direct_vm.value = AMOUNT
     try:
-        with direct_vm.expect_revert("only a party to this agreement can fund it"):
-            pact.fund_agreement(aid)
+        answer = pact.fund_agreement(aid)
     finally:
         direct_vm.value = 0
+    assert "only a party to this agreement can fund it" in answer, answer
+    assert transfers_to(transfers, hex_of(stranger)) == AMOUNT, transfers
+    assert pact.get_protocol_info()["total_custody"] == "0"
 
 
-def test_funding_needs_a_locked_agreement(pact, direct_vm, creator, agent):
+def test_funding_needs_a_locked_agreement(pact, direct_vm, creator, agent, transfers):
     aid = create(pact, direct_vm, creator, agent)
     direct_vm.sender = creator
     direct_vm.value = AMOUNT
     try:
-        with direct_vm.expect_revert("while the agreement is LOCKED"):
-            pact.fund_agreement(aid)
+        answer = pact.fund_agreement(aid)
     finally:
         direct_vm.value = 0
+    assert "while the agreement is LOCKED" in answer, answer
+    assert transfers_to(transfers, hex_of(creator)) == AMOUNT, transfers
+
+
+def test_funding_an_agreement_in_force_is_refunded_not_kept(pact, direct_vm, creator, agent,
+                                                            transfers):
+    """The exact transaction that stranded GEN on StudioNet: an amount sent to an
+    agreement that is already funded."""
+    aid = in_force(pact, direct_vm, creator, agent)
+    held = pact.get_protocol_info()["total_custody"]
+    direct_vm.sender = creator
+    direct_vm.value = AMOUNT
+    try:
+        answer = pact.fund_agreement(aid)
+    finally:
+        direct_vm.value = 0
+    assert "while the agreement is LOCKED" in answer and "ACTIVE" in answer, answer
+    assert transfers_to(transfers, hex_of(creator)) == AMOUNT, transfers
+    assert pact.get_protocol_info()["total_custody"] == held, "a refused deposit entered custody"
+    assert pact.get_agreement(aid)["amount_deposited"] == str(AMOUNT)
 
 
 def test_a_deposit_with_no_value_is_refused(pact, direct_vm, creator, agent):
@@ -263,15 +306,17 @@ def test_the_split_is_arithmetic_on_the_locked_policy_alone(mod):
     assert sum(mod._split_payout("BREACHED", policy, 999, 99)) == 999 + 99, "nothing is created or lost"
 
 
-def test_the_bond_must_be_exactly_what_the_policy_names(pact, direct_vm, creator, agent):
+def test_the_bond_must_be_exactly_what_the_policy_names(pact, direct_vm, creator, agent, transfers):
     aid = create(pact, direct_vm, creator, agent)
     lock(pact, direct_vm, creator, aid)
     fund(pact, direct_vm, creator, aid, AMOUNT)
     direct_vm.sender = agent
     direct_vm.value = BOND // 2
     try:
-        with direct_vm.expect_revert("the bond must be exactly"):
-            pact.fund_agreement(aid)
+        answer = pact.fund_agreement(aid)
     finally:
         direct_vm.value = 0
+    assert "the bond must be exactly" in answer, answer
+    assert transfers_to(transfers, hex_of(agent)) == BOND // 2, transfers
     assert pact.get_agreement(aid)["bond_deposited"] == "0"
+    assert pact.get_protocol_info()["total_custody"] == str(AMOUNT)

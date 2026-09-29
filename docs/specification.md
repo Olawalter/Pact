@@ -93,11 +93,22 @@ Three rules follow from the judges' standards, and they are architecture, not la
   explicitly refused for an item marked readable. A later reading never inherits bytes only the
   leader saw.
 - **An uncorroborated adverse finding does not move money (S34).** The contract derives a
-  corroboration class in code: `INDEPENDENT` (at least one readable `WEB_SOURCE` from an origin
-  neither party controls), `BILATERAL` (an `ATTESTATION` the other party has acknowledged on chain),
-  or `NONE`. When the evidence policy requires corroboration and the class is `NONE`, an adverse
-  outcome is held at `INCONCLUSIVE` instead of `BREACHED`, and the consequence policy's recovery rule
-  applies.
+  corroboration class in code, per finding, from the items that finding rests on:
+  `INDEPENDENT` (at least one `WEB_SOURCE` that was readable at adjudication and whose origin is not
+  a party to this agreement), `BILATERAL` (an `ATTESTATION` the other party has acknowledged on
+  chain), or `NONE`. When the evidence policy requires corroboration and the class is `NONE`, the
+  finding is held at `INCONCLUSIVE` whichever way it pointed -- a held `SATISFIED` cannot release the
+  amount any more than a held `VIOLATED` can forfeit the bond -- and the consequence policy's
+  recovery rule applies to what the held findings leave unresolved.
+
+  What `INDEPENDENT` claims is exactly this and no more: **the item is not a party's own word.** A
+  party attestation registers with an origin of `party:<address>` and can never reach the class. The
+  contract cannot know who controls a domain, so a web source a party quietly owns counts as
+  independent here; what protects the other side is that the address was registered on chain before
+  the round, is visible to both parties, and that `min_independent_origins` counts *origins*, not
+  addresses, so a party cannot manufacture corroboration by publishing the same claim at three URLs
+  on one host. Where that is not enough for the value at stake, the agreement should require more
+  origins, or a kind the counterparty has to acknowledge.
 
 ## 6. Adjudication, and what validators must agree on
 
@@ -184,7 +195,21 @@ and not signing is refused, in words.
 
 ## 10. Custody and settlement (§27, §28 of the brief)
 
-- Funding is payable. The deposited ledger is `gl.message.value`, never an argument.
+- Funding is payable, and it is the only payable write. The deposited ledger is `gl.message.value`,
+  never an argument.
+- **A payable write refuses by returning, not by raising.** GenLayer credits the transaction's value
+  to the contract before the call runs, and a raise rolls back the refund along with everything else:
+  the value would stay in the contract, recorded in no ledger and recoverable by nobody. So every
+  funding refusal that has value attached sends it straight back and returns
+  `"[REFUNDED] <reason>"` -- a transaction that succeeded, having done nothing but return the money.
+  The interface shows that as the refusal it is.
+
+  This is not a hypothetical. An earlier deployment raised on those branches, and 0.02 GEN sent to an
+  agreement that was already funded was stranded: the contract's balance exceeded `total_custody` by
+  exactly that amount. `tests/direct/test_settlement.py` now pins the shape that fixes it, and three
+  mutants cover it -- keeping the value, raising instead of returning, and returning without saying
+  it was a refusal.
+- A refusal with no value attached still raises, because there is nothing to give back.
 - `amount_required` and `bond_required` are the terms; `amount_deposited` and `bond_deposited` are the
   ledgers. Payouts read the ledgers.
 - Every payout path: read ledger → require it is above zero → compute the deterministic split from the

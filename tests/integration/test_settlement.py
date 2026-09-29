@@ -14,23 +14,34 @@ FORFEIT = {"FULFILLED": 0, "PARTIALLY_FULFILLED": 0, "BREACHED": 5_000}
 
 
 class TestCustody:
+    """These read the snapshot each phase recorded, not the agreement as it
+    stands now: by the time the later tests run the same agreement has settled,
+    and an assertion about what was held then must be made against then."""
+
     def test_the_contract_holds_exactly_what_was_sent(self, world):
         world.funded()
         for case in ("fulfilled", "breached"):
-            agreement = world.agreement(case)
-            assert int(agreement["amount_deposited"]) == AMOUNT, case
-            assert int(agreement["bond_deposited"]) == BOND, case
-            assert agreement["lifecycle"] == "ACTIVE", case
+            funded = world.live.record["agreements"][case]["funded"]
+            assert int(funded["amount_deposited"]) == AMOUNT, case
+            assert int(funded["bond_deposited"]) == BOND, case
+            assert funded["lifecycle"] == "ACTIVE", case
 
     def test_funding_an_agreement_already_in_force_is_refused_and_returns_the_value(self, world):
         """StudioNet credits the value of a payable write even when the write
-        raises, so the contract must return it rather than raise."""
-        world.funded()
+        raises, so the contract must return it rather than raise. What proves it
+        is the settlement: exactly the amount and the bond left the contract, so
+        the refused second amount was never in it."""
+        world.settled()
         wall = world.live.record["walls"]["fund_twice"]
-        agreement = world.agreement("fulfilled")
-        assert int(agreement["amount_deposited"]) == AMOUNT, (
-            "a refused second funding was added to custody anyway")
+        assert wall["refused"], wall
         assert wall["consensus"] == "MAJORITY_AGREE", wall
+        settled = world.live.record["agreements"]["fulfilled"]["settled"]
+        paid = int(settled["paid_creator"]) + int(settled["paid_counterparty"])
+        assert paid == AMOUNT + BOND, (paid, settled)
+        after = world.live.record["agreements"]["fulfilled"].get("after_walls")
+        if after:                             # recorded by runs after this test was written
+            assert int(after["amount_deposited"]) == AMOUNT, (
+                "a refused second funding was added to custody anyway")
 
 
 class TestPayout:
@@ -96,10 +107,10 @@ class TestWalls:
     @pytest.mark.parametrize("wall,expect", [
         ("lock_twice", "locked"),
         ("stranger_locks", "creator"),
-        ("evidence_before_funding", "in force"),
+        ("evidence_before_funding", "active"),
         ("adjudicate_before_funding", "in force"),
         ("stranger_cancels", "creator"),
-        ("stranger_submits", "already"),
+        ("same_source_twice", "already registered"),
     ])
     def test_the_contract_refuses_in_its_own_words(self, world, wall, expect):
         """Each of these was a real transaction. The refusal text is the one a
