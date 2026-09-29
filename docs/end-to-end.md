@@ -105,6 +105,34 @@ What each node fetched for itself:
 
 Settled: 0.025 GEN to the buyer, 0.005 GEN to the deliverer. The agreement holds 0 GEN and 0 GEN afterwards.
 
+## One party's word, in both directions
+
+The rule that a decisive finding resting only on a party's own attestation is held at
+`INCONCLUSIVE` is the one that keeps an agreement from turning a claim into a payment. It is
+also the rule most easily written to favour one side, so this run exercises both directions
+in the same agreement: the deliverer attests that it delivered, the buyer attests that a
+field was missing, and neither attestation is acknowledged by the other party.
+
+| Step | Transaction | Consensus |
+| --- | --- | --- |
+| create_agreement | [`0xaba81fb57cc4...`](https://explorer-studio.genlayer.com/tx/0xaba81fb57cc42881b3918fd098547a5785a9d22a934ccc07fe249a1259271f08) | 3 agree, 2 idle |
+| lock_agreement | [`0x7ed760b23e48...`](https://explorer-studio.genlayer.com/tx/0x7ed760b23e48196f0a04191c55540095ba23e9de99a3f85519eaa972ee7a15f9) | 5 agree |
+| fund (amount) | [`0xd28d7650bdc9...`](https://explorer-studio.genlayer.com/tx/0xd28d7650bdc96ea3d38bad243ad4d75ceb1c8d48b2a77e655efff05d0eee6f1f) | 5 agree |
+| fund (bond) | [`0x7363e5dd863f...`](https://explorer-studio.genlayer.com/tx/0x7363e5dd863f2dd4bf5686cda00ede9f78eccf3cff9388f4d11e1e1dcef4f73a) | 3 agree, 2 idle |
+| attestation: it was delivered | [`0x7f6ca257a5ac...`](https://explorer-studio.genlayer.com/tx/0x7f6ca257a5acc4c138d943ec1bdca4218256ecbe97635e59f6a850090e3db1e1) | 3 agree, 2 idle |
+| attestation: a field was missing | [`0xb29b078b17d4...`](https://explorer-studio.genlayer.com/tx/0xb29b078b17d426e16987f7efd237f21877aaa01c79f257455eb027904782b266) | 3 agree, 2 idle |
+| request_adjudication | [`0x8764f8b05e3a...`](https://explorer-studio.genlayer.com/tx/0x8764f8b05e3afff2b856dc1bfc89c40a35751b6ccfe44d74172501b4d25195ca) | 3 agree, 2 idle |
+
+| | Answered | After the corroboration floor | Support |
+| --- | --- | --- | --- |
+| `C1` | SATISFIED | INCONCLUSIVE | NONE |
+| `C2` | VIOLATED | INCONCLUSIVE | NONE |
+
+**INCONCLUSIVE.** Held for corroboration: C1, C2.
+
+Both a `SATISFIED` and a `VIOLATED` were held in the same round, which is the point:
+the floor is symmetric, and neither party can move value on its own say-so.
+
 ## The same thing, through the interface
 
 Everything above was sent by a script, which proves the contract and not the pages. This one
