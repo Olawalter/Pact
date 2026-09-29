@@ -39,6 +39,53 @@
       },
       "refused": false,
       "refusal": ""
+    },
+    {
+      "step": "fund (amount)",
+      "function": "fund_agreement",
+      "caller": "creator",
+      "tx": "0xb0a86ec5c801cad605b78c398826437cb6aa05d6406529235bb83711801596fb",
+      "value": 20000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false,
+      "refusal": ""
+    },
+    {
+      "step": "fund (bond)",
+      "function": "fund_agreement",
+      "caller": "agent",
+      "tx": "0x4370d7ee2ed4a4d545747dc348d0b9e35963b29ec509f1ee8a59a7fab5af9840",
+      "value": 10000000000000000,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 5
+      },
+      "refused": false,
+      "refusal": ""
+    },
+    {
+      "step": "recover before the window",
+      "function": "recover",
+      "caller": "stranger",
+      "tx": "0xc89ef4476cfcbac3104130a6bfd22e6e0168ceca694aed3c8e825bc872504e0e",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": true,
+      "refusal": "[EXPECTED] recovery is possible at 1790665196; the transaction time is 1790660982"
     }
   ]
 }

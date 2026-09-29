@@ -24,7 +24,22 @@ export function refusalSentence(text: string): string {
   for (const tag of TAGS) {
     if (out.startsWith(tag)) out = out.slice(tag.length).trim();
   }
+  out = readableTimes(out);
   return out.charAt(0).toUpperCase() + out.slice(1);
+}
+
+/**
+ * The contract measures its windows in seconds since the epoch, because that is
+ * what a transaction carries, and it says so when it refuses. Nobody reads
+ * 1790660590, so it is shown as the moment it means.
+ */
+function readableTimes(text: string): string {
+  return text.replace(/\b\d{10}\b/g, (digits) => {
+    const seconds = Number(digits);
+    if (seconds < 1_600_000_000 || seconds > 4_000_000_000) return digits;
+    return new Date(seconds * 1000)
+      .toISOString().replace("T", " ").replace(/:\d\d\.\d+Z$/, " UTC");
+  });
 }
 
 export function walletFailure(err: unknown): { message: string; kind: FailureKind } {

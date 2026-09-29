@@ -193,7 +193,7 @@ simulation. The full record, with hashes, is in [docs/end-to-end.md](docs/end-to
 | 165 direct tests | the contract in GenVM Direct Mode, including the validator closure replayed against forged leader results | `python -m pytest tests/direct` |
 | 32 live tests | the same agreement on StudioNet, asserted rather than printed | `SKIP_INTEGRATION=0 PACT_DEMO_COMMIT=<commit> python -m pytest tests/integration` |
 | 90 mutants | every mutant either dies or is documented as equivalent | `python scripts/mutate.py` |
-| 54 interface tests | the rules the form mirrors, the acts panel, the write lifecycle, the contract schema | `cd frontend && npx vitest run` |
+| 55 interface tests | the rules the form mirrors, the acts panel, the write lifecycle, the contract schema | `cd frontend && npx vitest run` |
 
 The live suite is skipped by default: a full run is about forty minutes of real consensus rounds.
 

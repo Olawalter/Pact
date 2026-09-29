@@ -102,7 +102,10 @@ def main() -> int:
         w("| Step | Transaction | Consensus |")
         w("| --- | --- | --- |")
         for t in r["transactions"]:
-            if t.get("agreement") != case or t.get("refused"):
+            # the create step names the case in its label rather than in the
+            # field, because the agreement did not exist yet when it was sent
+            belongs = t.get("agreement") == case or f"[{case}]" in str(t.get("step"))
+            if not belongs or t.get("refused"):
                 continue
             votes = ", ".join(f"{n} {v}" for v, n in t["votes"].items())
             w(f"| {t['step'].replace(f' [{case}]', '')} | {link(t['tx'])} | {votes} |")
@@ -128,10 +131,19 @@ def main() -> int:
             w("")
             w("| | Source | Availability | Origin | Digest of the excerpt read |")
             w("| --- | --- | --- | --- | --- |")
+            # the verdict records what the panel observed about each item; the
+            # address it observed is in the evidence registry, put there before
+            # the round
+            registry = {row["evidence_id"]: row
+                        for row in (entry.get("evidence") or {}).get("items", [])}
             for e in verdict["evidence"]:
-                source = e.get("source") or "(attestation)"
-                name = source.rsplit("/", 1)[-1] if source.startswith("http") else source
-                w(f"| `{e['evidence_id']}` | [{name}]({source}) | {e['availability']} | "
+                row = registry.get(e["evidence_id"], {})
+                source = row.get("source") or row.get("normalized") or ""
+                if source.startswith("http"):
+                    cell = f"[{source.rsplit('/', 1)[-1]}]({source})"
+                else:
+                    cell = row.get("label") or "an attestation"
+                w(f"| `{e['evidence_id']}` | {cell} | {e['availability']} | "
                   f"`{e['origin']}` | `{e['excerpt_digest'][:16]}...` |")
             w("")
         settled = entry.get("settled")

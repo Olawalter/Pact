@@ -135,6 +135,17 @@ describe("runWrite", () => {
 });
 
 describe("what the words say", () => {
+  it("shows the moment a unix time means, and leaves other numbers alone", () => {
+    expect(refusalSentence("[EXPECTED] the verdict can be finalized at 1790660590; "
+                           + "the transaction time is 1790660403"))
+      .toBe("The verdict can be finalized at 2026-09-29 05:43 UTC; "
+            + "the transaction time is 2026-09-29 05:40 UTC");
+    expect(refusalSentence("[EXPECTED] an agreement holds at most 24 evidence items"))
+      .toBe("An agreement holds at most 24 evidence items");
+    expect(refusalSentence("[EXPECTED] the bond must be exactly 5000000000 atto"))
+      .toBe("The bond must be exactly 5000000000 atto");
+  });
+
   it("strips the protocol tag and nothing else", () => {
     expect(refusalSentence("[EXPECTED] the bond must be exactly 5 atto"))
       .toBe("The bond must be exactly 5 atto");
