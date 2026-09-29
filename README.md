@@ -245,3 +245,7 @@ cd frontend && cp .env.example .env.local && npm install && npm run dev
 - [Deployment](docs/deployment.md) -- deploying, and proving the deployed bytes are this source
 - [End to end](docs/end-to-end.md) -- the live runs, with transaction hashes
 - [Security](docs/security.md) -- what PACT defends against, and what it does not claim
+
+## Licence
+
+MIT. See [LICENSE](LICENSE).
