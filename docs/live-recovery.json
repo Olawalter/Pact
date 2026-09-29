@@ -86,6 +86,182 @@
       },
       "refused": true,
       "refusal": "[EXPECTED] recovery is possible at 1790665196; the transaction time is 1790660982"
+    },
+    {
+      "step": "recover (sent by a stranger)",
+      "function": "recover",
+      "caller": "stranger",
+      "tx": "0xf96b6a4569480eca3f490dd9b79d77fde43bc016200ed20c5d743554616ca918",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false,
+      "refusal": ""
     }
-  ]
+  ],
+  "agreement_id": "A14",
+  "deadline": 1790661596,
+  "recovery_window": 3600,
+  "amount": "20000000000000000",
+  "bond": "10000000000000000",
+  "final": {
+    "agreement_id": "A14",
+    "amount_deposited": "0",
+    "amount_required": "20000000000000000",
+    "bond_deposited": "0",
+    "bond_required": "10000000000000000",
+    "counterparty": "0xC94c5e4c1D33a1be92F0d4BF894307689E7867a0",
+    "created_at": 1790660858,
+    "creator": "0x86916a294993e6246619b00a9aaafe7ace890c59",
+    "deadline": 1790661596,
+    "definition": {
+      "consequence_policy": {
+        "amount_required": 20000000000000000,
+        "bond_forfeit_bps": 5000,
+        "bond_required": 10000000000000000,
+        "breached_bps": 0,
+        "economic": true,
+        "fulfilled_bps": 10000,
+        "partially_fulfilled_bps": 5000,
+        "recovery_rule": "REFUND_CREATOR"
+      },
+      "constraints": [
+        {
+          "description": "",
+          "evidence_requirements": [
+            "ATTESTATION",
+            "WEB_SOURCE"
+          ],
+          "id": "C1",
+          "materiality": "MATERIAL",
+          "requirement": "The report was delivered.",
+          "type": "FACTUAL"
+        }
+      ],
+      "deadline": 1790661596,
+      "evidence_policy": {
+        "corroboration_required": true,
+        "min_independent_origins": 1,
+        "required_kinds": [
+          "WEB_SOURCE"
+        ]
+      },
+      "policy_rules": "PACT-RULES-1",
+      "recovery_window": 3600
+    },
+    "economic": true,
+    "evidence_count": 0,
+    "fingerprint": "234594f7329b65112a62e64aaeaf19e5613247a40c93bf8103b14db14a90f15e",
+    "last_round_at": 0,
+    "latest_verdict_id": "",
+    "lifecycle": "CONSEQUENCE_EXECUTED",
+    "locked_at": 1790660950,
+    "paid_counterparty": "10000000000000000",
+    "paid_creator": "20000000000000000",
+    "recovery_window": 3600,
+    "result_state": "INCONCLUSIVE",
+    "round_count": 0,
+    "settled_at": 1790665207,
+    "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
+    "title": "Verified company research report",
+    "updated_at": 1790665207
+  },
+  "balances_before": {
+    "creator": "980000000000000000",
+    "agent": "990000000000000000"
+  },
+  "balances_after": {
+    "creator": "1000000000000000000",
+    "agent": "1000000000000000000"
+  },
+  "protocol_after": {
+    "agreement_count": 15,
+    "availability": [
+      "AVAILABLE",
+      "MISSING",
+      "UNAVAILABLE",
+      "SUBMITTED"
+    ],
+    "constraint_statuses": [
+      "SATISFIED",
+      "VIOLATED",
+      "INCONCLUSIVE",
+      "NOT_APPLICABLE"
+    ],
+    "constraint_types": [
+      "FACTUAL",
+      "TEMPORAL",
+      "THRESHOLD",
+      "QUALITY",
+      "EXCLUSION",
+      "COMPOSITE"
+    ],
+    "corroboration": [
+      "INDEPENDENT",
+      "BILATERAL",
+      "NONE"
+    ],
+    "evidence_kinds": [
+      "WEB_SOURCE",
+      "ATTESTATION"
+    ],
+    "lifecycle_states": [
+      "DRAFT",
+      "CONSTRAINTS_REVIEW",
+      "LOCKED",
+      "ACTIVE",
+      "ADJUDICATION_PENDING",
+      "VERDICT_PROPOSED",
+      "FINALIZED",
+      "CONSEQUENCE_EXECUTED",
+      "CANCELLED"
+    ],
+    "limits": {
+      "bps": 10000,
+      "clock_skew": 300,
+      "finality_delay": 300,
+      "max_amount": "1000000000000000000000000",
+      "max_constraints": 12,
+      "max_deadline_ahead": 31622400,
+      "max_evidence": 24,
+      "max_page": 50,
+      "max_recovery_window": 7776000,
+      "max_requirement": 300,
+      "max_rounds": 4,
+      "max_terms": 4000,
+      "max_text": 4000,
+      "max_title": 120,
+      "max_url": 400,
+      "min_amount": "1000000000000000",
+      "min_constraints": 1,
+      "min_deadline_ahead": 600,
+      "min_recovery_window": 3600,
+      "min_round_interval": 600
+    },
+    "materialities": [
+      "MATERIAL",
+      "MINOR"
+    ],
+    "policy_rules": "PACT-RULES-1",
+    "protocol_version": "PACT-1.0.0",
+    "recovery_rules": [
+      "REFUND_CREATOR",
+      "SPLIT_EVENLY",
+      "RELEASE_COUNTERPARTY"
+    ],
+    "result_states": [
+      "FULFILLED",
+      "PARTIALLY_FULFILLED",
+      "BREACHED",
+      "INCONCLUSIVE"
+    ],
+    "total_custody": "30000000000000000"
+  },
+  "as_locked": true,
+  "finished_at": "2026-09-29T07:00:56Z"
 }

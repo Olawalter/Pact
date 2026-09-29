@@ -454,6 +454,7 @@ class World:
             for a in page["items"]:
                 held += int(a["amount_deposited"]) + int(a["bond_deposited"])
             live.record["custody_held_by_agreements"] = str(held)
+            live.record["contract_balance"] = str(live.contract_balance())
         self._once("settle", run)
 
 

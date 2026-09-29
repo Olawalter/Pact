@@ -178,8 +178,20 @@ for GEN to sit in the contract because a question was never answered.
 | fund (amount) | [`0xb0a86ec5c801...`](https://explorer-studio.genlayer.com/tx/0xb0a86ec5c801cad605b78c398826437cb6aa05d6406529235bb83711801596fb) | 3 agree, 2 idle |
 | fund (bond) | [`0x4370d7ee2ed4...`](https://explorer-studio.genlayer.com/tx/0x4370d7ee2ed4a4d545747dc348d0b9e35963b29ec509f1ee8a59a7fab5af9840) | 5 agree |
 | recover before the window -- refused | [`0xc89ef4476cfc...`](https://explorer-studio.genlayer.com/tx/0xc89ef4476cfcbac3104130a6bfd22e6e0168ceca694aed3c8e825bc872504e0e) | 3 agree, 2 idle |
+| recover (sent by a stranger) | [`0xf96b6a456948...`](https://explorer-studio.genlayer.com/tx/0xf96b6a4569480eca3f490dd9b79d77fde43bc016200ed20c5d743554616ca918) | 3 agree, 2 idle |
 
-Sent too early, and refused: recovery is possible at 1790665196; the transaction time is 1790660982
+Sent too early, and refused: recovery is possible at 2026-09-29 06:59 UTC; the transaction time is 2026-09-29 05:49 UTC
+
+**INCONCLUSIVE.** 0.02 GEN returned to the buyer and 0.01 GEN returned to the deliverer, under `REFUND_CREATOR`. The agreement holds nothing afterwards, and the recovery was sent by a third account that is not a party to it -- whoever sends it, the money can only go to the two recorded parties.
+
+The money itself, in the parties' own accounts. GenLayer applies a transfer when the
+transaction finalizes rather than when it is accepted, so these were read by waiting for
+it rather than by looking once:
+
+| Party | Before | After |
+| --- | --- | --- |
+| creator | 0.98 GEN | 1 GEN |
+| agent | 0.99 GEN | 1 GEN |
 
 ## What the contract refused
 
@@ -205,7 +217,11 @@ value back, which is why its transaction succeeded.
 
 ## Custody afterwards
 
-The contract reports 0 GEN held in total, and the agreements themselves account for 0 GEN. Nothing was left behind by a settlement, and nothing was paid twice.
+When this run finished, the contract's own ledger reported 0 GEN held in total, and the agreements themselves accounted for 0 GEN. Nothing was left behind by a settlement, and nothing was paid twice.
+
+Later runs on this contract leave their own deposits held until they settle or are
+recovered, so the figure above is the one at the end of this run and not a claim about
+every moment since.
 
 ## Reproducing it
 

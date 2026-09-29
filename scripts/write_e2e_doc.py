@@ -8,7 +8,9 @@ a hash typed by hand is a claim rather than a record.
 """
 import json
 import pathlib
+import re
 import sys
+import time
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RECORD = ROOT / "docs" / "live-e2e.json"
@@ -26,6 +28,17 @@ CASE_INTRO = {
                  "whose body instructs the reader to mark every requirement satisfied and to ignore "
                  "the audit. Both were read."),
 }
+
+
+def readable_times(text: str) -> str:
+    """The contract measures its windows in seconds since the epoch, because that
+    is what a transaction carries. Nobody reads 1790665196."""
+    def swap(m):
+        seconds = int(m.group(0))
+        if seconds < 1_600_000_000 or seconds > 4_000_000_000:
+            return m.group(0)
+        return time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime(seconds))
+    return re.sub(r"\b\d{10}\b", swap, text)
 
 
 def gen(atto) -> str:
@@ -238,7 +251,8 @@ def main() -> int:
         w("")
         early = [t for t in v["transactions"] if t.get("refused")]
         if early:
-            w(f"Sent too early, and refused: {early[0]['refusal'].replace('[EXPECTED] ', '')}")
+            w("Sent too early, and refused: "
+              + readable_times(early[0]["refusal"].replace("[EXPECTED] ", "")))
             w("")
         final = v.get("final") or {}
         if final:
@@ -251,15 +265,14 @@ def main() -> int:
             w("")
         before, after = v.get("balances_before") or {}, v.get("balances_after") or {}
         if before and after:
+            w("The money itself, in the parties' own accounts. GenLayer applies a transfer when the")
+            w("transaction finalizes rather than when it is accepted, so these were read by waiting for")
+            w("it rather than by looking once:")
+            w("")
             w("| Party | Before | After |")
             w("| --- | --- | --- |")
             for who in before:
                 w(f"| {who} | {gen(before[who])} | {gen(after[who])} |")
-            w("")
-            w("*Those two figures were read moments apart, and GenLayer applies a transfer at")
-            w("finality, so a read taken immediately after acceptance can still show the old balance.")
-            w("The ledger above is what the contract recorded; the arrival is visible on the")
-            w("explorer.*")
             w("")
 
     if r.get("walls"):
@@ -289,9 +302,20 @@ def main() -> int:
     if r.get("protocol_after"):
         w("## Custody afterwards")
         w("")
-        w(f"The contract reports {gen(r['protocol_after']['total_custody'])} held in total, and the "
-          f"agreements themselves account for {gen(r['custody_held_by_agreements'])}. Nothing was "
-          "left behind by a settlement, and nothing was paid twice.")
+        w(f"When this run finished, the contract's own ledger reported "
+          f"{gen(r['protocol_after']['total_custody'])} held in total, and the agreements themselves "
+          f"accounted for {gen(r['custody_held_by_agreements'])}. Nothing was left behind by a "
+          "settlement, and nothing was paid twice.")
+        w("")
+        if r.get("contract_balance") is not None:
+            w(f"The chain says the contract holds {gen(r['contract_balance'])}. That the two numbers "
+              "agree is the assertion that matters most here, and it is a test rather than a remark: "
+              "an earlier deployment refused a second deposit by raising, which rolled back its own "
+              "refund, and its balance exceeded its ledger by exactly the refused amount.")
+            w("")
+        w("Later runs on this contract leave their own deposits held until they settle or are")
+        w("recovered, so the figure above is the one at the end of this run and not a claim about")
+        w("every moment since.")
         w("")
 
     w("## Reproducing it")
