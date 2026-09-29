@@ -47,7 +47,8 @@ contract SDK, the equivalence principle and `gl.nondet` are described there, and
 
 ## An example agreement
 
-The one the live runs adjudicate, and the one the interface creates if you follow its five steps:
+The one the live runs adjudicate. The interface's own placeholders match it, so the five steps
+read as a worked example:
 
 > The research agent must deliver a report containing at least 50 verified companies before the
 > deadline. Each company must carry at least three qualifying sources, every required field must be

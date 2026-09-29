@@ -109,6 +109,15 @@ it."
 
 ---
 
+**If the constraint proposal is part of the take**
+
+It is a comparative round: every validator drafts the requirements itself and the drafts are
+compared. It agreed for this agreement's words, and it has reached no majority for terser ones. If it
+fails on camera, that is worth keeping rather than cutting: the interface says nothing was recorded
+and that it can be sent again, which is the honest behaviour. Ask again, or write the requirements by
+hand, which is the path that binds either way. Have the requirements ready to type so the take does
+not stall.
+
 **Do not say on camera**
 
 - "Verified" about anything the video does not show.

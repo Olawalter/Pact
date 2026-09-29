@@ -39,6 +39,12 @@ What PACT defends against, how, and -- as important -- what it does not claim.
 - **Consensus is not unanimity.** A verdict is recorded on a majority. The live breach run was
   agreed three to two, and the two who disagreed had reached the same state by a different route --
   the disagreement is in the receipts, not hidden.
+- **The advisory constraint proposal is a comparative round, and can fail.** Asking PACT to draft the
+  requirements from the words runs `prompt_comparative`: every validator drafts them itself and the
+  drafts are compared. For the demonstration agreement the panel agreed; for a terser one, written
+  ad hoc, it reached no majority twice. Nothing is recorded when that happens, the interface says so,
+  and the requirements can be written by hand -- which is the path that binds in any case, since the
+  proposal is advisory.
 - **A round that fails is not an answer.** No majority means nothing was written. The interface says
   so rather than showing a state.
 - **The deadline is the transaction's time, not the world's.** Every window is measured against
