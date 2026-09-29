@@ -124,7 +124,16 @@ def main() -> int:
     print("\nPHASE recover")
     before = {who: balance(who) for who in ("creator", "agent")}
     write("stranger", "recover", aid, label="recover (sent by a stranger)")
-    after = {who: balance(who) for who in ("creator", "agent")}
+
+    # GenLayer applies a transfer when the transaction finalizes, not when it is
+    # accepted, so a balance read straight after acceptance still shows the old
+    # number. Waiting for the money is the whole point of this scenario.
+    after = {}
+    for _ in range(60):
+        after = {who: balance(who) for who in ("creator", "agent")}
+        if after["creator"] > before["creator"] and after["agent"] > before["agent"]:
+            break
+        time.sleep(10)
     final = read("get_agreement", aid)
     print(f"\n  lifecycle      {final['lifecycle']}  ({final['result_state']})")
     print(f"  paid creator   {final['paid_creator']}   (expected {AMOUNT})")
@@ -138,7 +147,18 @@ def main() -> int:
           and int(final["paid_creator"]) == AMOUNT and int(final["paid_counterparty"]) == BOND
           and after["creator"] - before["creator"] == AMOUNT
           and after["agent"] - before["agent"] == BOND)
-    print("\n  RESULT:", "as locked" if ok else "NOT AS LOCKED")
+    record.update({
+        "agreement_id": aid, "deadline": deadline, "recovery_window": RECOVERY_WINDOW,
+        "amount": str(AMOUNT), "bond": str(BOND), "final": final,
+        "balances_before": {k: str(v) for k, v in before.items()},
+        "balances_after": {k: str(v) for k, v in after.items()},
+        "protocol_after": read("get_protocol_info"),
+        "as_locked": bool(ok),
+        "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    })
+    save()
+    print(f"\n  record written to {out}")
+    print("  RESULT:", "as locked" if ok else "NOT AS LOCKED")
     return 0 if ok else 1
 
 

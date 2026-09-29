@@ -37,6 +37,55 @@ feed, it is not a hash comparison, and a single LLM call answering it is one par
 extra steps. It needs several independent readers who each fetch the evidence, answer separately,
 and have to agree before anything is written. That is what GenLayer is.
 
+> PACT uses GenLayer because agreement fulfilment often depends on interpreting natural-language
+> requirements and real-world evidence that cannot be reduced to ordinary deterministic
+> smart-contract logic.
+
+The protocol's own documentation is at [docs.genlayer.com](https://docs.genlayer.com); the Python
+contract SDK, the equivalence principle and `gl.nondet` are described there, and
+[`docs/architecture.md`](docs/architecture.md) explains which of them PACT uses and why.
+
+## An example agreement
+
+The one the live runs adjudicate, and the one the interface creates if you follow its five steps:
+
+> The research agent must deliver a report containing at least 50 verified companies before the
+> deadline. Each company must carry at least three qualifying sources, every required field must be
+> present, and no fabricated citation may appear in the report.
+
+locked as five requirements, four of them material:
+
+| | Type | Requirement | Materiality |
+| --- | --- | --- | --- |
+| `C1` | Threshold | The report contains at least 50 companies. | Material |
+| `C2` | Factual | Every required field is present for each company. | Material |
+| `C3` | Threshold | Each company carries at least three qualifying sources. | Material |
+| `C4` | Exclusion | No fabricated citation appears in the report. | Material |
+| `C5` | Temporal | The report was delivered before 2026-09-30T18:00:00Z. | Minor |
+
+with 0.02 GEN held against delivery, a 0.01 GEN bond from the deliverer, everything released on
+`FULFILLED`, half on `PARTIALLY_FULFILLED`, nothing on `BREACHED`, and half the bond forfeit on a
+breach. Those shares are locked before any evidence exists.
+
+## The wallet
+
+Every write is signed by the person making it, in their own wallet. The app has no key, no server and
+no session: it discovers injected wallets through EIP-6963, asks for the account, and composes a
+transaction that GenLayer's own client sends.
+
+| The app shows | When |
+| --- | --- |
+| Connect wallet | no account is authorised yet |
+| The account, abbreviated | connected |
+| Wrong network, with the chain it expects | the wallet is not on chain `61999` |
+| Waiting for your signature | the request is with the wallet |
+| Submitted, pending, leader proposed, validating, decided, finalized | each step the app has actually observed from GenLayer, never a timer |
+| The contract's own words | the contract refused, including a funding refusal that returned the GEN |
+| Nothing changed, and it can be sent again | the round reached no majority |
+
+A step is only shown as passed when GenLayer reported it, and the app waits for the contract's own
+views to show the write before it calls it decided.
+
 ## The lifecycle
 
 ```
@@ -142,9 +191,9 @@ simulation. The full record, with hashes, is in [docs/end-to-end.md](docs/end-to
 | Suite | What it covers | Command |
 | --- | --- | --- |
 | 165 direct tests | the contract in GenVM Direct Mode, including the validator closure replayed against forged leader results | `python -m pytest tests/direct` |
-| 31 live tests | the same agreement on StudioNet, asserted rather than printed | `SKIP_INTEGRATION=0 PACT_DEMO_COMMIT=<commit> python -m pytest tests/integration` |
+| 32 live tests | the same agreement on StudioNet, asserted rather than printed | `SKIP_INTEGRATION=0 PACT_DEMO_COMMIT=<commit> python -m pytest tests/integration` |
 | 90 mutants | every mutant either dies or is documented as equivalent | `python scripts/mutate.py` |
-| 52 interface tests | the rules the form mirrors, the acts panel, the write lifecycle, the contract schema | `cd frontend && npx vitest run` |
+| 54 interface tests | the rules the form mirrors, the acts panel, the write lifecycle, the contract schema | `cd frontend && npx vitest run` |
 
 The live suite is skipped by default: a full run is about forty minutes of real consensus rounds.
 

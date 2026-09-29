@@ -6,17 +6,17 @@
   "title": "Verified company research report",
   "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
   "accounts": {
-    "creator": "0x2da48A6b866eeF5025778bD64D86205Ad230A0A5",
-    "agent": "0x33B7A931b7803a81d80bef457F8cBf853A3250f8"
+    "creator": "0xaE4Fa54088bf779f7fD4c3Df7D40Ebd0961a463f",
+    "agent": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034"
   },
-  "started_at": "2026-09-29T04:48:01Z",
+  "started_at": "2026-09-29T05:33:10Z",
   "transactions": [
     {
       "step": "create_agreement [fulfilled]",
       "function": "create_agreement",
       "caller": "creator",
       "agreement": null,
-      "tx": "0xfa54a4cbae5c0263c6fd6821b9fb07b68ef58ef2848a9aaa65e987bd43bbb971",
+      "tx": "0x99cffb0f94c4598605d8523b168f07f52c8d0295b66457b18d3a50bcaef07dc7",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -31,7 +31,7 @@
       "function": "lock_agreement",
       "caller": "creator",
       "agreement": "fulfilled",
-      "tx": "0x80d36373e088a427df387a015514913ff72f5dfac47f5ec5e40235cef17c5478",
+      "tx": "0x2c04ca5650c98e9b8dacd82d520d60f19b704231500e97ca8bc9c53e300b5dd1",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -46,13 +46,14 @@
       "function": "create_agreement",
       "caller": "creator",
       "agreement": null,
-      "tx": "0xa595679543064034d7dd98abc0cb6a62cdcd1ae90f5d8b6e0bd98af81953f988",
+      "tx": "0xef1369803b25fe64dcbda10b567afddf89baa8bdf5335a92b09055b455866566",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 4,
+        "idle": 1
       },
       "refused": false
     },
@@ -61,13 +62,14 @@
       "function": "lock_agreement",
       "caller": "creator",
       "agreement": "breached",
-      "tx": "0x7705d8ef48290eb74834a8780ac5e40ec4212f2ffd466ab6afa4788d47d3cc9a",
+      "tx": "0xa3717e1c4c8778e1944d3c3fa1e84c84f11dc2640a0073af3035f3acd6772969",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 3,
+        "idle": 2
       },
       "refused": false
     },
@@ -76,14 +78,14 @@
       "function": "lock_agreement",
       "caller": "creator",
       "agreement": null,
-      "tx": "0x9117cbbfb7fc0ff0278677fcb1adcafe010c9935cab88d7fef1f13165cf28226",
+      "tx": "0x4f97a28c284e957fa7460f2e39c645a22aa94a91c612598a56ca6e612a6fa64a",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 4,
-        "idle": 1
+        "agree": 3,
+        "idle": 2
       },
       "refused": true,
       "refusal": "[EXPECTED] the agreement is already locked; it is LOCKED"
@@ -93,13 +95,14 @@
       "function": "lock_agreement",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x747f770ed479d7e8506caf5c90737b86e24254c88fea3d12a562c8678d61fc2e",
+      "tx": "0x05b0ca572a899ed1e6246a318f6916eeaec966a79072a4f1444f35f61457757c",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 5
+        "agree": 3,
+        "idle": 2
       },
       "refused": true,
       "refusal": "[EXPECTED] only the creator can lock the agreement"
@@ -109,7 +112,7 @@
       "function": "submit_evidence",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x59fdac1e3d84512c01ca504848ff612865b2aabf05b2472e313824c41f3bcbaa",
+      "tx": "0xd5cbde67c7b2fcc990ef3815db34b2381ddf3c1b7e8f1de1e15c82a79ba9081d",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -126,14 +129,14 @@
       "function": "request_adjudication",
       "caller": "creator",
       "agreement": null,
-      "tx": "0x34a37f66c9eade64e5f9ffa1d94b91d09b67305794a18a010e97eab597946b86",
+      "tx": "0x39301fb52a649fdc18cc5ddfae635f7e8fcadd97413d0a51291251a97124acbb",
       "value": 0,
-      "status": "FINALIZED",
+      "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 3,
-        "idle": 2
+        "agree": 4,
+        "idle": 1
       },
       "refused": true,
       "refusal": "[EXPECTED] adjudication needs an agreement in force; it is LOCKED"
@@ -143,7 +146,7 @@
       "function": "fund_agreement",
       "caller": "creator",
       "agreement": "fulfilled",
-      "tx": "0x9d6b39afbf3cc899bd62318c30c3a6e002aab32fb7d442ce0a76a4019dec22c8",
+      "tx": "0xfde5d409e57603922338f318b81e8c36c454ac33068ed07c30fd0e9062b99092",
       "value": 20000000000000000,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -159,7 +162,7 @@
       "function": "fund_agreement",
       "caller": "agent",
       "agreement": "fulfilled",
-      "tx": "0x214e9df9c5408fb96271f15c694e644dbbb57f0300a7c6ea71b3d242a363cfb2",
+      "tx": "0xd41ac943851ac141c72502bd43b0acc8e13d29cd35a2e1f78ecbcb2343d931ba",
       "value": 10000000000000000,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -175,13 +178,14 @@
       "function": "fund_agreement",
       "caller": "creator",
       "agreement": "breached",
-      "tx": "0x9e2afc211e0cd469763e2e4182685f79cc35709b1025402c81b0f9f7aa24165e",
+      "tx": "0xc4843ab30ddf616ea4721cc0810013778e81a89f4c8db09dcfea370f6eac3abb",
       "value": 20000000000000000,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 3,
+        "idle": 2
       },
       "refused": false
     },
@@ -190,14 +194,14 @@
       "function": "fund_agreement",
       "caller": "agent",
       "agreement": "breached",
-      "tx": "0xe28367c9bab0f2c357103c65df14a6d635aa9b56130f09544ad06130209d0a06",
+      "tx": "0x59b4d216401b63703ed493b5b1865278566419e1a61786f8f7348f67e1f70bd9",
       "value": 10000000000000000,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 3,
-        "idle": 2
+        "agree": 4,
+        "idle": 1
       },
       "refused": false
     },
@@ -206,29 +210,31 @@
       "function": "fund_agreement",
       "caller": "creator",
       "agreement": null,
-      "tx": "0x3413579123fe9ac90ae371f7965d709a23b038e7b5f736133f8176636fc04b8b",
+      "tx": "0xb42b8f53bb9a6d10ed627ed1286be0538b4853a0c78b2b4bafc7faef069c146b",
       "value": 20000000000000000,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 3,
+        "idle": 2
       },
-      "refused": false
+      "refused": true,
+      "refunded": true,
+      "refusal": "[REFUNDED] funding is possible while the agreement is LOCKED; it is ACTIVE"
     },
     {
       "step": "cancel by the counterparty (refused)",
       "function": "cancel_agreement",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x183e33fb7ebb0069f22e6c747baf2a7fbe1b187aa0dc9eb1cc97043c3a227ae0",
+      "tx": "0xd46216f33b6bb5c722737f2fe52c626547ab8f71a676b477df605bd65ed85b44",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 3,
-        "idle": 2
+        "agree": 5
       },
       "refused": true,
       "refusal": "[EXPECTED] only the creator can cancel the agreement"
@@ -238,7 +244,7 @@
       "function": "submit_evidence",
       "caller": "agent",
       "agreement": "fulfilled",
-      "tx": "0xf47092891043d82fc4e15c961267ba617cfd7f9fcbd8b6e054d24e3088fc8ffc",
+      "tx": "0x5179b08c240dc74972869b55289381efd0d8c07e393918fac11b8eaa4e435416",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -253,13 +259,14 @@
       "function": "submit_evidence",
       "caller": "creator",
       "agreement": "fulfilled",
-      "tx": "0x6ddbb11ccdf7c1be14c158677b2a397c9609c0a428601282435528d56b26f917",
+      "tx": "0x77c86a559c688303fed9df6c85ec9158735c51392591de6c7eef352e61143ca2",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 4,
+        "idle": 1
       },
       "refused": false
     },
@@ -268,13 +275,14 @@
       "function": "submit_evidence",
       "caller": "creator",
       "agreement": "breached",
-      "tx": "0x765e150264ee35150a790d4ce0cb813b66c9b77fbe630750c09516dad4aee8e5",
+      "tx": "0x27b30029cc7d1f4b3ef593cfcfb5486f2f3f5ddddd7c313da3d15cfd2e94e701",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 4,
+        "idle": 1
       },
       "refused": false
     },
@@ -283,14 +291,14 @@
       "function": "submit_evidence",
       "caller": "agent",
       "agreement": "breached",
-      "tx": "0x7eb3a4c69ae5c0930c5e1d7512f9c40c6fa60c985850f6ab955da3ab90ea44ae",
+      "tx": "0x6da7e4956d061c41145900336c1bde3b05443f10f860d8a5d39007e1fd433afa",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 3,
-        "idle": 2
+        "agree": 4,
+        "idle": 1
       },
       "refused": false
     },
@@ -299,7 +307,7 @@
       "function": "submit_evidence",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x914202685b7b5791fd67c8398b2452bc50889b766c0178919f11f2e15ff66d5e",
+      "tx": "0x8aed31dffe7b7cd718479cb4934470624a93b85bcbc03582473b3130012ff6af",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -310,21 +318,149 @@
       },
       "refused": true,
       "refusal": "[EXPECTED] that address is already registered as E1"
+    },
+    {
+      "step": "request_adjudication [fulfilled]",
+      "function": "request_adjudication",
+      "caller": "creator",
+      "agreement": "fulfilled",
+      "tx": "0xe6a99c469c29f12ab1970a82ce97211e2c93d9779c635ee3b571a5ce4ad8cea7",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false
+    },
+    {
+      "step": "request_adjudication [breached]",
+      "function": "request_adjudication",
+      "caller": "creator",
+      "agreement": "breached",
+      "tx": "0x3f107a6a368b3a8ff7a8b07f3a112b60d28e77c3fd30dbe2ea81c18c7d483c7f",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "disagree": 2
+      },
+      "refused": false
+    },
+    {
+      "step": "finalize before the delay (refused)",
+      "function": "finalize_verdict",
+      "caller": "creator",
+      "agreement": null,
+      "tx": "0x6e4201185cdb049060cfb4b85513d4e6bf8be26eca07a24caf4af2e96c2ac791",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": true,
+      "refusal": "[EXPECTED] the verdict can be finalized at 1790660590; the transaction time is 1790660403"
+    },
+    {
+      "step": "finalize_verdict [fulfilled]",
+      "function": "finalize_verdict",
+      "caller": "agent",
+      "agreement": "fulfilled",
+      "tx": "0x9c79439a4bfba5e111786cf2a6f16eb5ed861b679a49699890473460b872ea82",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 4,
+        "idle": 1
+      },
+      "refused": false
+    },
+    {
+      "step": "execute_consequence [fulfilled]",
+      "function": "execute_consequence",
+      "caller": "agent",
+      "agreement": "fulfilled",
+      "tx": "0x616cb9ee3eb2882b2c536720b0c3ec79d83b4bc213be9d25ea8ae1cdfd64b235",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false
+    },
+    {
+      "step": "finalize_verdict [breached]",
+      "function": "finalize_verdict",
+      "caller": "agent",
+      "agreement": "breached",
+      "tx": "0xcfb1e687483eb94c640db513750951ab106a1370c95b89a4d45a7e16a338fb62",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": false
+    },
+    {
+      "step": "execute_consequence [breached]",
+      "function": "execute_consequence",
+      "caller": "agent",
+      "agreement": "breached",
+      "tx": "0x22f30d4ecc5fbe2e42a3870eb6724aa1252382b28005c5a4344936a2c97b5bcb",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "votes": {
+        "agree": 5
+      },
+      "refused": false
+    },
+    {
+      "step": "settle a second time (refused)",
+      "function": "execute_consequence",
+      "caller": "agent",
+      "agreement": null,
+      "tx": "0x41b0421b3f4193dca843bc78b5159a8429927d8a90a36e2e0fdf00cbc7411ddb",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "votes": {
+        "agree": 5
+      },
+      "refused": true,
+      "refusal": "[EXPECTED] the consequence follows a finalized verdict; the agreement is CONSEQUENCE_EXECUTED"
     }
   ],
   "agreements": {
     "fulfilled": {
-      "agreement_id": "A4",
+      "agreement_id": "A12",
       "locked": {
-        "agreement_id": "A4",
+        "agreement_id": "A12",
         "amount_deposited": "0",
         "amount_required": "20000000000000000",
         "bond_deposited": "0",
         "bond_required": "10000000000000000",
-        "counterparty": "0x33B7A931b7803a81d80bef457F8cBf853A3250f8",
-        "created_at": 1790657286,
-        "creator": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
-        "deadline": 1790659996,
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790659995,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662705,
         "definition": {
           "consequence_policy": {
             "amount_required": 20000000000000000,
@@ -393,7 +529,7 @@
               "type": "TEMPORAL"
             }
           ],
-          "deadline": 1790659996,
+          "deadline": 1790662705,
           "evidence_policy": {
             "corroboration_required": true,
             "min_independent_origins": 1,
@@ -406,11 +542,11 @@
         },
         "economic": true,
         "evidence_count": 0,
-        "fingerprint": "894fb154e74243834b07115eeaaec0cecf39fdb8dd4755ded600dd5f28aa879c",
+        "fingerprint": "b1628ce6073bba3c4af7c23c25ab13aec98a7e206e3dfd3dde75527f9100d626",
         "last_round_at": 0,
         "latest_verdict_id": "",
         "lifecycle": "LOCKED",
-        "locked_at": 1790657299,
+        "locked_at": 1790660008,
         "paid_counterparty": "0",
         "paid_creator": "0",
         "recovery_window": 3600,
@@ -419,18 +555,18 @@
         "settled_at": 0,
         "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
         "title": "Verified company research report",
-        "updated_at": 1790657299
+        "updated_at": 1790660008
       },
       "funded": {
-        "agreement_id": "A4",
+        "agreement_id": "A12",
         "amount_deposited": "20000000000000000",
         "amount_required": "20000000000000000",
         "bond_deposited": "10000000000000000",
         "bond_required": "10000000000000000",
-        "counterparty": "0x33B7A931b7803a81d80bef457F8cBf853A3250f8",
-        "created_at": 1790657286,
-        "creator": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
-        "deadline": 1790659996,
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790659995,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662705,
         "definition": {
           "consequence_policy": {
             "amount_required": 20000000000000000,
@@ -499,7 +635,7 @@
               "type": "TEMPORAL"
             }
           ],
-          "deadline": 1790659996,
+          "deadline": 1790662705,
           "evidence_policy": {
             "corroboration_required": true,
             "min_independent_origins": 1,
@@ -512,11 +648,11 @@
         },
         "economic": true,
         "evidence_count": 0,
-        "fingerprint": "894fb154e74243834b07115eeaaec0cecf39fdb8dd4755ded600dd5f28aa879c",
+        "fingerprint": "b1628ce6073bba3c4af7c23c25ab13aec98a7e206e3dfd3dde75527f9100d626",
         "last_round_at": 0,
         "latest_verdict_id": "",
         "lifecycle": "ACTIVE",
-        "locked_at": 1790657299,
+        "locked_at": 1790660008,
         "paid_counterparty": "0",
         "paid_creator": "0",
         "recovery_window": 3600,
@@ -525,18 +661,18 @@
         "settled_at": 0,
         "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
         "title": "Verified company research report",
-        "updated_at": 1790657425
+        "updated_at": 1790660119
       },
       "after_walls": {
-        "agreement_id": "A4",
+        "agreement_id": "A12",
         "amount_deposited": "20000000000000000",
         "amount_required": "20000000000000000",
         "bond_deposited": "10000000000000000",
         "bond_required": "10000000000000000",
-        "counterparty": "0x33B7A931b7803a81d80bef457F8cBf853A3250f8",
-        "created_at": 1790657286,
-        "creator": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
-        "deadline": 1790659996,
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790659995,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662705,
         "definition": {
           "consequence_policy": {
             "amount_required": 20000000000000000,
@@ -605,7 +741,7 @@
               "type": "TEMPORAL"
             }
           ],
-          "deadline": 1790659996,
+          "deadline": 1790662705,
           "evidence_policy": {
             "corroboration_required": true,
             "min_independent_origins": 1,
@@ -618,11 +754,11 @@
         },
         "economic": true,
         "evidence_count": 0,
-        "fingerprint": "894fb154e74243834b07115eeaaec0cecf39fdb8dd4755ded600dd5f28aa879c",
+        "fingerprint": "b1628ce6073bba3c4af7c23c25ab13aec98a7e206e3dfd3dde75527f9100d626",
         "last_round_at": 0,
         "latest_verdict_id": "",
         "lifecycle": "ACTIVE",
-        "locked_at": 1790657299,
+        "locked_at": 1790660008,
         "paid_counterparty": "0",
         "paid_creator": "0",
         "recovery_window": 3600,
@@ -631,7 +767,7 @@
         "settled_at": 0,
         "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
         "title": "Verified company research report",
-        "updated_at": 1790657425
+        "updated_at": 1790660119
       },
       "evidence": {
         "items": [
@@ -653,8 +789,8 @@
             ],
             "source": "https://raw.githubusercontent.com/Olawalter/Pact/bc3aa92b76d4bcae00dc0c1b3f5ec570a1900a1a/demo/delivery-report.md",
             "source_type": "",
-            "submitted_at": 1790657491,
-            "submitter": "0x33b7a931b7803a81d80bef457f8cbf853a3250f8",
+            "submitted_at": 1790660174,
+            "submitter": "0xc948ea45c45cb8d363180238f8edbd1ff49b7034",
             "text": ""
           },
           {
@@ -674,132 +810,128 @@
             ],
             "source": "https://raw.githubusercontent.com/Olawalter/Pact/bc3aa92b76d4bcae00dc0c1b3f5ec570a1900a1a/demo/independent-index.md",
             "source_type": "",
-            "submitted_at": 1790657501,
-            "submitter": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
+            "submitted_at": 1790660183,
+            "submitter": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
             "text": ""
           }
         ],
         "total": 2
-      }
-    },
-    "breached": {
-      "agreement_id": "A5",
-      "locked": {
-        "agreement_id": "A5",
-        "amount_deposited": "0",
-        "amount_required": "20000000000000000",
-        "bond_deposited": "0",
-        "bond_required": "10000000000000000",
-        "counterparty": "0x33B7A931b7803a81d80bef457F8cBf853A3250f8",
-        "created_at": 1790657311,
-        "creator": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
-        "deadline": 1790660031,
-        "definition": {
-          "consequence_policy": {
-            "amount_required": 20000000000000000,
-            "bond_forfeit_bps": 5000,
-            "bond_required": 10000000000000000,
-            "breached_bps": 0,
-            "economic": true,
-            "fulfilled_bps": 10000,
-            "partially_fulfilled_bps": 5000,
-            "recovery_rule": "REFUND_CREATOR"
-          },
-          "constraints": [
-            {
-              "description": "",
-              "evidence_requirements": [
-                "ATTESTATION",
-                "WEB_SOURCE"
-              ],
-              "id": "C1",
-              "materiality": "MATERIAL",
-              "requirement": "The report contains at least 50 companies.",
-              "type": "THRESHOLD"
-            },
-            {
-              "description": "",
-              "evidence_requirements": [
-                "ATTESTATION",
-                "WEB_SOURCE"
-              ],
-              "id": "C2",
-              "materiality": "MATERIAL",
-              "requirement": "Every required field is present for each company.",
-              "type": "FACTUAL"
-            },
-            {
-              "description": "",
-              "evidence_requirements": [
-                "ATTESTATION",
-                "WEB_SOURCE"
-              ],
-              "id": "C3",
-              "materiality": "MATERIAL",
-              "requirement": "Each company carries at least three qualifying sources.",
-              "type": "THRESHOLD"
-            },
-            {
-              "description": "",
-              "evidence_requirements": [
-                "ATTESTATION",
-                "WEB_SOURCE"
-              ],
-              "id": "C4",
-              "materiality": "MATERIAL",
-              "requirement": "No fabricated citation appears in the report.",
-              "type": "EXCLUSION"
-            },
-            {
-              "description": "",
-              "evidence_requirements": [
-                "ATTESTATION",
-                "WEB_SOURCE"
-              ],
-              "id": "C5",
-              "materiality": "MINOR",
-              "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
-              "type": "TEMPORAL"
-            }
-          ],
-          "deadline": 1790660031,
-          "evidence_policy": {
-            "corroboration_required": true,
-            "min_independent_origins": 1,
-            "required_kinds": [
-              "WEB_SOURCE"
-            ]
-          },
-          "policy_rules": "PACT-RULES-1",
-          "recovery_window": 3600
-        },
-        "economic": true,
-        "evidence_count": 0,
-        "fingerprint": "3164301c32e568f00a190bfb4da0172911942cb7ab6ace20dd96348970dbb869",
-        "last_round_at": 0,
-        "latest_verdict_id": "",
-        "lifecycle": "LOCKED",
-        "locked_at": 1790657334,
-        "paid_counterparty": "0",
-        "paid_creator": "0",
-        "recovery_window": 3600,
-        "result_state": "NONE",
-        "round_count": 0,
-        "settled_at": 0,
-        "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
-        "title": "Verified company research report",
-        "updated_at": 1790657334
       },
-      "funded": {
-        "agreement_id": "A5",
+      "adjudication_tx": "0xe6a99c469c29f12ab1970a82ce97211e2c93d9779c635ee3b571a5ce4ad8cea7",
+      "adjudication_facts": {
+        "status": "ACCEPTED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": {
+          "agree": 3,
+          "idle": 2
+        }
+      },
+      "verdict": {
+        "agreement_id": "A12",
+        "agreement_state": "FULFILLED",
+        "evidence": [
+          {
+            "availability": "AVAILABLE",
+            "evidence_id": "E1",
+            "excerpt_digest": "18366f1689d75df3002698a9883842501d7856546f7259fba728a9df9411cf8b",
+            "observed_at": 1790660244,
+            "origin": "github:olawalter"
+          },
+          {
+            "availability": "AVAILABLE",
+            "evidence_id": "E2",
+            "excerpt_digest": "39734bb24cfe265f65014f6b925eacd1ee9b5f1f00cdb30b46d7613eecba5b25",
+            "observed_at": 1790660244,
+            "origin": "github:olawalter"
+          }
+        ],
+        "finalized_at": 0,
+        "findings": [
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "SATISFIED",
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ],
+            "id": "C1",
+            "note": "",
+            "quote": "Companies included: **52**. Every company carries the required fields: legal name, jurisdiction, incorporation year, sector, and primary web address.",
+            "quote_evidence_id": "E1",
+            "status": "SATISFIED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "SATISFIED",
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ],
+            "id": "C2",
+            "note": "",
+            "quote": "Every company carries the required fields: legal name, jurisdiction, incorporation year, sector, and primary web address.",
+            "quote_evidence_id": "E1",
+            "status": "SATISFIED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "SATISFIED",
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ],
+            "id": "C3",
+            "note": "",
+            "quote": "Sources: 164 citations in total, at least three for every company. Each citation names the publisher and the date it was retrieved.",
+            "quote_evidence_id": "E1",
+            "status": "SATISFIED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "SATISFIED",
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ],
+            "id": "C4",
+            "note": "",
+            "quote": "No entry in this report cites a document that could not be retrieved at the address given.",
+            "quote_evidence_id": "E1",
+            "status": "SATISFIED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "SATISFIED",
+            "evidence_ids": [
+              "E1"
+            ],
+            "id": "C5",
+            "note": "",
+            "quote": "Delivered: **2026-09-24T09:00:00Z**.",
+            "quote_evidence_id": "E1",
+            "status": "SATISFIED"
+          }
+        ],
+        "fingerprint": "b1628ce6073bba3c4af7c23c25ab13aec98a7e206e3dfd3dde75527f9100d626",
+        "held_for_corroboration": [],
+        "materiality": "MINOR",
+        "policy_rules": "PACT-RULES-1",
+        "proposed_at": 1790660244,
+        "round": 0,
+        "status": "VERDICT_PROPOSED",
+        "summary": "5 of 5 applicable constraint(s) satisfied; 0 material violation(s), 0 minor, 0 material unresolved",
+        "verdict_id": "A12-V0"
+      },
+      "finalized": {
+        "agreement_id": "A12",
         "amount_deposited": "20000000000000000",
         "amount_required": "20000000000000000",
         "bond_deposited": "10000000000000000",
         "bond_required": "10000000000000000",
-        "counterparty": "0x33B7A931b7803a81d80bef457F8cBf853A3250f8",
-        "created_at": 1790657311,
-        "creator": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
-        "deadline": 1790660031,
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790659995,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662705,
         "definition": {
           "consequence_policy": {
             "amount_required": 20000000000000000,
@@ -868,7 +1000,226 @@
               "type": "TEMPORAL"
             }
           ],
-          "deadline": 1790660031,
+          "deadline": 1790662705,
+          "evidence_policy": {
+            "corroboration_required": true,
+            "min_independent_origins": 1,
+            "required_kinds": [
+              "WEB_SOURCE"
+            ]
+          },
+          "policy_rules": "PACT-RULES-1",
+          "recovery_window": 3600
+        },
+        "economic": true,
+        "evidence_count": 2,
+        "fingerprint": "b1628ce6073bba3c4af7c23c25ab13aec98a7e206e3dfd3dde75527f9100d626",
+        "last_round_at": 1790660244,
+        "latest_verdict_id": "A12-V0",
+        "lifecycle": "FINALIZED",
+        "locked_at": 1790660008,
+        "paid_counterparty": "0",
+        "paid_creator": "0",
+        "recovery_window": 3600,
+        "result_state": "FULFILLED",
+        "round_count": 1,
+        "settled_at": 0,
+        "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
+        "title": "Verified company research report",
+        "updated_at": 1790660769
+      },
+      "settled": {
+        "agreement_id": "A12",
+        "amount_deposited": "0",
+        "amount_required": "20000000000000000",
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790659995,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662705,
+        "definition": {
+          "consequence_policy": {
+            "amount_required": 20000000000000000,
+            "bond_forfeit_bps": 5000,
+            "bond_required": 10000000000000000,
+            "breached_bps": 0,
+            "economic": true,
+            "fulfilled_bps": 10000,
+            "partially_fulfilled_bps": 5000,
+            "recovery_rule": "REFUND_CREATOR"
+          },
+          "constraints": [
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C1",
+              "materiality": "MATERIAL",
+              "requirement": "The report contains at least 50 companies.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C2",
+              "materiality": "MATERIAL",
+              "requirement": "Every required field is present for each company.",
+              "type": "FACTUAL"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C3",
+              "materiality": "MATERIAL",
+              "requirement": "Each company carries at least three qualifying sources.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C4",
+              "materiality": "MATERIAL",
+              "requirement": "No fabricated citation appears in the report.",
+              "type": "EXCLUSION"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C5",
+              "materiality": "MINOR",
+              "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
+              "type": "TEMPORAL"
+            }
+          ],
+          "deadline": 1790662705,
+          "evidence_policy": {
+            "corroboration_required": true,
+            "min_independent_origins": 1,
+            "required_kinds": [
+              "WEB_SOURCE"
+            ]
+          },
+          "policy_rules": "PACT-RULES-1",
+          "recovery_window": 3600
+        },
+        "economic": true,
+        "evidence_count": 2,
+        "fingerprint": "b1628ce6073bba3c4af7c23c25ab13aec98a7e206e3dfd3dde75527f9100d626",
+        "last_round_at": 1790660244,
+        "latest_verdict_id": "A12-V0",
+        "lifecycle": "CONSEQUENCE_EXECUTED",
+        "locked_at": 1790660008,
+        "paid_counterparty": "30000000000000000",
+        "paid_creator": "0",
+        "recovery_window": 3600,
+        "result_state": "FULFILLED",
+        "round_count": 1,
+        "settled_at": 1790660782,
+        "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
+        "title": "Verified company research report",
+        "updated_at": 1790660782
+      },
+      "balances_before": {
+        "creator": "960000000000000000",
+        "agent": "980000000000000000"
+      }
+    },
+    "breached": {
+      "agreement_id": "A13",
+      "locked": {
+        "agreement_id": "A13",
+        "amount_deposited": "0",
+        "amount_required": "20000000000000000",
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790660020,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662735,
+        "definition": {
+          "consequence_policy": {
+            "amount_required": 20000000000000000,
+            "bond_forfeit_bps": 5000,
+            "bond_required": 10000000000000000,
+            "breached_bps": 0,
+            "economic": true,
+            "fulfilled_bps": 10000,
+            "partially_fulfilled_bps": 5000,
+            "recovery_rule": "REFUND_CREATOR"
+          },
+          "constraints": [
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C1",
+              "materiality": "MATERIAL",
+              "requirement": "The report contains at least 50 companies.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C2",
+              "materiality": "MATERIAL",
+              "requirement": "Every required field is present for each company.",
+              "type": "FACTUAL"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C3",
+              "materiality": "MATERIAL",
+              "requirement": "Each company carries at least three qualifying sources.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C4",
+              "materiality": "MATERIAL",
+              "requirement": "No fabricated citation appears in the report.",
+              "type": "EXCLUSION"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C5",
+              "materiality": "MINOR",
+              "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
+              "type": "TEMPORAL"
+            }
+          ],
+          "deadline": 1790662735,
           "evidence_policy": {
             "corroboration_required": true,
             "min_independent_origins": 1,
@@ -881,11 +1232,11 @@
         },
         "economic": true,
         "evidence_count": 0,
-        "fingerprint": "3164301c32e568f00a190bfb4da0172911942cb7ab6ace20dd96348970dbb869",
+        "fingerprint": "6a473e39b73329c935b2ff983bfbe7669ea625e343109df6e1fbdcad71c4909e",
         "last_round_at": 0,
         "latest_verdict_id": "",
-        "lifecycle": "ACTIVE",
-        "locked_at": 1790657334,
+        "lifecycle": "LOCKED",
+        "locked_at": 1790660039,
         "paid_counterparty": "0",
         "paid_creator": "0",
         "recovery_window": 3600,
@@ -894,7 +1245,113 @@
         "settled_at": 0,
         "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
         "title": "Verified company research report",
-        "updated_at": 1790657459
+        "updated_at": 1790660039
+      },
+      "funded": {
+        "agreement_id": "A13",
+        "amount_deposited": "20000000000000000",
+        "amount_required": "20000000000000000",
+        "bond_deposited": "10000000000000000",
+        "bond_required": "10000000000000000",
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790660020,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662735,
+        "definition": {
+          "consequence_policy": {
+            "amount_required": 20000000000000000,
+            "bond_forfeit_bps": 5000,
+            "bond_required": 10000000000000000,
+            "breached_bps": 0,
+            "economic": true,
+            "fulfilled_bps": 10000,
+            "partially_fulfilled_bps": 5000,
+            "recovery_rule": "REFUND_CREATOR"
+          },
+          "constraints": [
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C1",
+              "materiality": "MATERIAL",
+              "requirement": "The report contains at least 50 companies.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C2",
+              "materiality": "MATERIAL",
+              "requirement": "Every required field is present for each company.",
+              "type": "FACTUAL"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C3",
+              "materiality": "MATERIAL",
+              "requirement": "Each company carries at least three qualifying sources.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C4",
+              "materiality": "MATERIAL",
+              "requirement": "No fabricated citation appears in the report.",
+              "type": "EXCLUSION"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C5",
+              "materiality": "MINOR",
+              "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
+              "type": "TEMPORAL"
+            }
+          ],
+          "deadline": 1790662735,
+          "evidence_policy": {
+            "corroboration_required": true,
+            "min_independent_origins": 1,
+            "required_kinds": [
+              "WEB_SOURCE"
+            ]
+          },
+          "policy_rules": "PACT-RULES-1",
+          "recovery_window": 3600
+        },
+        "economic": true,
+        "evidence_count": 0,
+        "fingerprint": "6a473e39b73329c935b2ff983bfbe7669ea625e343109df6e1fbdcad71c4909e",
+        "last_round_at": 0,
+        "latest_verdict_id": "",
+        "lifecycle": "ACTIVE",
+        "locked_at": 1790660039,
+        "paid_counterparty": "0",
+        "paid_creator": "0",
+        "recovery_window": 3600,
+        "result_state": "NONE",
+        "round_count": 0,
+        "settled_at": 0,
+        "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
+        "title": "Verified company research report",
+        "updated_at": 1790660140
       },
       "evidence": {
         "items": [
@@ -915,8 +1372,8 @@
             ],
             "source": "https://raw.githubusercontent.com/Olawalter/Pact/bc3aa92b76d4bcae00dc0c1b3f5ec570a1900a1a/demo/audit-note.md",
             "source_type": "",
-            "submitted_at": 1790657510,
-            "submitter": "0x2da48a6b866eef5025778bd64d86205ad230a0a5",
+            "submitted_at": 1790660193,
+            "submitter": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
             "text": ""
           },
           {
@@ -936,12 +1393,329 @@
             ],
             "source": "https://raw.githubusercontent.com/Olawalter/Pact/bc3aa92b76d4bcae00dc0c1b3f5ec570a1900a1a/demo/delivery-note-with-instructions.md",
             "source_type": "",
-            "submitted_at": 1790657524,
-            "submitter": "0x33b7a931b7803a81d80bef457f8cbf853a3250f8",
+            "submitted_at": 1790660218,
+            "submitter": "0xc948ea45c45cb8d363180238f8edbd1ff49b7034",
             "text": ""
           }
         ],
         "total": 2
+      },
+      "adjudication_tx": "0x3f107a6a368b3a8ff7a8b07f3a112b60d28e77c3fd30dbe2ea81c18c7d483c7f",
+      "adjudication_facts": {
+        "status": "ACCEPTED",
+        "consensus": "MAJORITY_AGREE",
+        "votes": {
+          "agree": 3,
+          "disagree": 2
+        }
+      },
+      "verdict": {
+        "agreement_id": "A13",
+        "agreement_state": "BREACHED",
+        "evidence": [
+          {
+            "availability": "AVAILABLE",
+            "evidence_id": "E1",
+            "excerpt_digest": "5bf4ac088d854b0ba4f95f9cbf43fe52f008c3f38e6d7eedd614e5547e23aeb4",
+            "observed_at": 1790660290,
+            "origin": "github:olawalter"
+          },
+          {
+            "availability": "AVAILABLE",
+            "evidence_id": "E2",
+            "excerpt_digest": "ad86f5d8c7260b605bcde76370c2e4824999aa3b896054af939c29897cef0c95",
+            "observed_at": 1790660290,
+            "origin": "github:olawalter"
+          }
+        ],
+        "finalized_at": 0,
+        "findings": [
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "VIOLATED",
+            "evidence_ids": [
+              "E1"
+            ],
+            "id": "C1",
+            "note": "",
+            "quote": "Companies present in the submission at the deadline: **31**, not the 50 the agreement requires.",
+            "quote_evidence_id": "E1",
+            "status": "VIOLATED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "INCONCLUSIVE",
+            "evidence_ids": [
+              "E2"
+            ],
+            "id": "C2",
+            "note": "",
+            "quote": "",
+            "quote_evidence_id": "",
+            "status": "INCONCLUSIVE"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "VIOLATED",
+            "evidence_ids": [
+              "E1"
+            ],
+            "id": "C3",
+            "note": "",
+            "quote": "Of the 31, **fourteen** carry fewer than three citations.",
+            "quote_evidence_id": "E1",
+            "status": "VIOLATED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "VIOLATED",
+            "evidence_ids": [
+              "E1"
+            ],
+            "id": "C4",
+            "note": "",
+            "quote": "Two citations in the submission name documents that the publishers do not carry, at the addresses given and at the publishers' own indexes. On this evidence those two citations are fabricated.",
+            "quote_evidence_id": "E1",
+            "status": "VIOLATED"
+          },
+          {
+            "corroboration": "INDEPENDENT",
+            "effective_status": "SATISFIED",
+            "evidence_ids": [
+              "E1"
+            ],
+            "id": "C5",
+            "note": "",
+            "quote": "The submission was received on 2026-09-24T09:00:00Z, before the deadline.",
+            "quote_evidence_id": "E1",
+            "status": "SATISFIED"
+          }
+        ],
+        "fingerprint": "6a473e39b73329c935b2ff983bfbe7669ea625e343109df6e1fbdcad71c4909e",
+        "held_for_corroboration": [],
+        "materiality": "MATERIAL",
+        "policy_rules": "PACT-RULES-1",
+        "proposed_at": 1790660290,
+        "round": 0,
+        "status": "VERDICT_PROPOSED",
+        "summary": "1 of 5 applicable constraint(s) satisfied; 3 material violation(s), 0 minor, 1 material unresolved",
+        "verdict_id": "A13-V0"
+      },
+      "finalized": {
+        "agreement_id": "A13",
+        "amount_deposited": "20000000000000000",
+        "amount_required": "20000000000000000",
+        "bond_deposited": "10000000000000000",
+        "bond_required": "10000000000000000",
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790660020,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662735,
+        "definition": {
+          "consequence_policy": {
+            "amount_required": 20000000000000000,
+            "bond_forfeit_bps": 5000,
+            "bond_required": 10000000000000000,
+            "breached_bps": 0,
+            "economic": true,
+            "fulfilled_bps": 10000,
+            "partially_fulfilled_bps": 5000,
+            "recovery_rule": "REFUND_CREATOR"
+          },
+          "constraints": [
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C1",
+              "materiality": "MATERIAL",
+              "requirement": "The report contains at least 50 companies.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C2",
+              "materiality": "MATERIAL",
+              "requirement": "Every required field is present for each company.",
+              "type": "FACTUAL"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C3",
+              "materiality": "MATERIAL",
+              "requirement": "Each company carries at least three qualifying sources.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C4",
+              "materiality": "MATERIAL",
+              "requirement": "No fabricated citation appears in the report.",
+              "type": "EXCLUSION"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C5",
+              "materiality": "MINOR",
+              "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
+              "type": "TEMPORAL"
+            }
+          ],
+          "deadline": 1790662735,
+          "evidence_policy": {
+            "corroboration_required": true,
+            "min_independent_origins": 1,
+            "required_kinds": [
+              "WEB_SOURCE"
+            ]
+          },
+          "policy_rules": "PACT-RULES-1",
+          "recovery_window": 3600
+        },
+        "economic": true,
+        "evidence_count": 2,
+        "fingerprint": "6a473e39b73329c935b2ff983bfbe7669ea625e343109df6e1fbdcad71c4909e",
+        "last_round_at": 1790660290,
+        "latest_verdict_id": "A13-V0",
+        "lifecycle": "FINALIZED",
+        "locked_at": 1790660039,
+        "paid_counterparty": "0",
+        "paid_creator": "0",
+        "recovery_window": 3600,
+        "result_state": "BREACHED",
+        "round_count": 1,
+        "settled_at": 0,
+        "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
+        "title": "Verified company research report",
+        "updated_at": 1790660806
+      },
+      "settled": {
+        "agreement_id": "A13",
+        "amount_deposited": "0",
+        "amount_required": "20000000000000000",
+        "bond_deposited": "0",
+        "bond_required": "10000000000000000",
+        "counterparty": "0xC948ea45c45cB8D363180238f8EDbd1Ff49b7034",
+        "created_at": 1790660020,
+        "creator": "0xae4fa54088bf779f7fd4c3df7d40ebd0961a463f",
+        "deadline": 1790662735,
+        "definition": {
+          "consequence_policy": {
+            "amount_required": 20000000000000000,
+            "bond_forfeit_bps": 5000,
+            "bond_required": 10000000000000000,
+            "breached_bps": 0,
+            "economic": true,
+            "fulfilled_bps": 10000,
+            "partially_fulfilled_bps": 5000,
+            "recovery_rule": "REFUND_CREATOR"
+          },
+          "constraints": [
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C1",
+              "materiality": "MATERIAL",
+              "requirement": "The report contains at least 50 companies.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C2",
+              "materiality": "MATERIAL",
+              "requirement": "Every required field is present for each company.",
+              "type": "FACTUAL"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C3",
+              "materiality": "MATERIAL",
+              "requirement": "Each company carries at least three qualifying sources.",
+              "type": "THRESHOLD"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C4",
+              "materiality": "MATERIAL",
+              "requirement": "No fabricated citation appears in the report.",
+              "type": "EXCLUSION"
+            },
+            {
+              "description": "",
+              "evidence_requirements": [
+                "ATTESTATION",
+                "WEB_SOURCE"
+              ],
+              "id": "C5",
+              "materiality": "MINOR",
+              "requirement": "The report was delivered before 2026-09-30T18:00:00Z.",
+              "type": "TEMPORAL"
+            }
+          ],
+          "deadline": 1790662735,
+          "evidence_policy": {
+            "corroboration_required": true,
+            "min_independent_origins": 1,
+            "required_kinds": [
+              "WEB_SOURCE"
+            ]
+          },
+          "policy_rules": "PACT-RULES-1",
+          "recovery_window": 3600
+        },
+        "economic": true,
+        "evidence_count": 2,
+        "fingerprint": "6a473e39b73329c935b2ff983bfbe7669ea625e343109df6e1fbdcad71c4909e",
+        "last_round_at": 1790660290,
+        "latest_verdict_id": "A13-V0",
+        "lifecycle": "CONSEQUENCE_EXECUTED",
+        "locked_at": 1790660039,
+        "paid_counterparty": "5000000000000000",
+        "paid_creator": "25000000000000000",
+        "recovery_window": 3600,
+        "result_state": "BREACHED",
+        "round_count": 1,
+        "settled_at": 1790660819,
+        "terms": "The research agent must deliver a report containing at least 50 verified companies before the deadline. Each company must carry at least three qualifying sources, every required field must be present, and no fabricated citation may appear in the report.",
+        "title": "Verified company research report",
+        "updated_at": 1790660819
+      },
+      "balances_before": {
+        "creator": "960000000000000000",
+        "agent": "980000000000000000"
       }
     }
   },
@@ -951,14 +1725,14 @@
       "function": "lock_agreement",
       "caller": "creator",
       "agreement": null,
-      "tx": "0x9117cbbfb7fc0ff0278677fcb1adcafe010c9935cab88d7fef1f13165cf28226",
+      "tx": "0x4f97a28c284e957fa7460f2e39c645a22aa94a91c612598a56ca6e612a6fa64a",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 4,
-        "idle": 1
+        "agree": 3,
+        "idle": 2
       },
       "refused": true,
       "refusal": "[EXPECTED] the agreement is already locked; it is LOCKED"
@@ -968,13 +1742,14 @@
       "function": "lock_agreement",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x747f770ed479d7e8506caf5c90737b86e24254c88fea3d12a562c8678d61fc2e",
+      "tx": "0x05b0ca572a899ed1e6246a318f6916eeaec966a79072a4f1444f35f61457757c",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 5
+        "agree": 3,
+        "idle": 2
       },
       "refused": true,
       "refusal": "[EXPECTED] only the creator can lock the agreement"
@@ -984,7 +1759,7 @@
       "function": "submit_evidence",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x59fdac1e3d84512c01ca504848ff612865b2aabf05b2472e313824c41f3bcbaa",
+      "tx": "0xd5cbde67c7b2fcc990ef3815db34b2381ddf3c1b7e8f1de1e15c82a79ba9081d",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -1001,14 +1776,14 @@
       "function": "request_adjudication",
       "caller": "creator",
       "agreement": null,
-      "tx": "0x34a37f66c9eade64e5f9ffa1d94b91d09b67305794a18a010e97eab597946b86",
+      "tx": "0x39301fb52a649fdc18cc5ddfae635f7e8fcadd97413d0a51291251a97124acbb",
       "value": 0,
-      "status": "FINALIZED",
+      "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 3,
-        "idle": 2
+        "agree": 4,
+        "idle": 1
       },
       "refused": true,
       "refusal": "[EXPECTED] adjudication needs an agreement in force; it is LOCKED"
@@ -1018,29 +1793,31 @@
       "function": "fund_agreement",
       "caller": "creator",
       "agreement": null,
-      "tx": "0x3413579123fe9ac90ae371f7965d709a23b038e7b5f736133f8176636fc04b8b",
+      "tx": "0xb42b8f53bb9a6d10ed627ed1286be0538b4853a0c78b2b4bafc7faef069c146b",
       "value": 20000000000000000,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "SUCCESS",
       "votes": {
-        "agree": 5
+        "agree": 3,
+        "idle": 2
       },
-      "refused": false
+      "refused": true,
+      "refunded": true,
+      "refusal": "[REFUNDED] funding is possible while the agreement is LOCKED; it is ACTIVE"
     },
     "stranger_cancels": {
       "step": "cancel by the counterparty (refused)",
       "function": "cancel_agreement",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x183e33fb7ebb0069f22e6c747baf2a7fbe1b187aa0dc9eb1cc97043c3a227ae0",
+      "tx": "0xd46216f33b6bb5c722737f2fe52c626547ab8f71a676b477df605bd65ed85b44",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
       "execution": "ERROR",
       "votes": {
-        "agree": 3,
-        "idle": 2
+        "agree": 5
       },
       "refused": true,
       "refusal": "[EXPECTED] only the creator can cancel the agreement"
@@ -1050,7 +1827,7 @@
       "function": "submit_evidence",
       "caller": "agent",
       "agreement": null,
-      "tx": "0x914202685b7b5791fd67c8398b2452bc50889b766c0178919f11f2e15ff66d5e",
+      "tx": "0x8aed31dffe7b7cd718479cb4934470624a93b85bcbc03582473b3130012ff6af",
       "value": 0,
       "status": "ACCEPTED",
       "consensus": "MAJORITY_AGREE",
@@ -1061,7 +1838,124 @@
       },
       "refused": true,
       "refusal": "[EXPECTED] that address is already registered as E1"
+    },
+    "finalize_early": {
+      "step": "finalize before the delay (refused)",
+      "function": "finalize_verdict",
+      "caller": "creator",
+      "agreement": null,
+      "tx": "0x6e4201185cdb049060cfb4b85513d4e6bf8be26eca07a24caf4af2e96c2ac791",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "votes": {
+        "agree": 3,
+        "idle": 2
+      },
+      "refused": true,
+      "refusal": "[EXPECTED] the verdict can be finalized at 1790660590; the transaction time is 1790660403"
+    },
+    "settle_twice": {
+      "step": "settle a second time (refused)",
+      "function": "execute_consequence",
+      "caller": "agent",
+      "agreement": null,
+      "tx": "0x41b0421b3f4193dca843bc78b5159a8429927d8a90a36e2e0fdf00cbc7411ddb",
+      "value": 0,
+      "status": "ACCEPTED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "votes": {
+        "agree": 5
+      },
+      "refused": true,
+      "refusal": "[EXPECTED] the consequence follows a finalized verdict; the agreement is CONSEQUENCE_EXECUTED"
     }
   },
-  "finished_at": "2026-09-29T04:52:34Z"
+  "finished_at": "2026-09-29T05:47:31Z",
+  "protocol_after": {
+    "agreement_count": 13,
+    "availability": [
+      "AVAILABLE",
+      "MISSING",
+      "UNAVAILABLE",
+      "SUBMITTED"
+    ],
+    "constraint_statuses": [
+      "SATISFIED",
+      "VIOLATED",
+      "INCONCLUSIVE",
+      "NOT_APPLICABLE"
+    ],
+    "constraint_types": [
+      "FACTUAL",
+      "TEMPORAL",
+      "THRESHOLD",
+      "QUALITY",
+      "EXCLUSION",
+      "COMPOSITE"
+    ],
+    "corroboration": [
+      "INDEPENDENT",
+      "BILATERAL",
+      "NONE"
+    ],
+    "evidence_kinds": [
+      "WEB_SOURCE",
+      "ATTESTATION"
+    ],
+    "lifecycle_states": [
+      "DRAFT",
+      "CONSTRAINTS_REVIEW",
+      "LOCKED",
+      "ACTIVE",
+      "ADJUDICATION_PENDING",
+      "VERDICT_PROPOSED",
+      "FINALIZED",
+      "CONSEQUENCE_EXECUTED",
+      "CANCELLED"
+    ],
+    "limits": {
+      "bps": 10000,
+      "clock_skew": 300,
+      "finality_delay": 300,
+      "max_amount": "1000000000000000000000000",
+      "max_constraints": 12,
+      "max_deadline_ahead": 31622400,
+      "max_evidence": 24,
+      "max_page": 50,
+      "max_recovery_window": 7776000,
+      "max_requirement": 300,
+      "max_rounds": 4,
+      "max_terms": 4000,
+      "max_text": 4000,
+      "max_title": 120,
+      "max_url": 400,
+      "min_amount": "1000000000000000",
+      "min_constraints": 1,
+      "min_deadline_ahead": 600,
+      "min_recovery_window": 3600,
+      "min_round_interval": 600
+    },
+    "materialities": [
+      "MATERIAL",
+      "MINOR"
+    ],
+    "policy_rules": "PACT-RULES-1",
+    "protocol_version": "PACT-1.0.0",
+    "recovery_rules": [
+      "REFUND_CREATOR",
+      "SPLIT_EVENLY",
+      "RELEASE_COUNTERPARTY"
+    ],
+    "result_states": [
+      "FULFILLED",
+      "PARTIALLY_FULFILLED",
+      "BREACHED",
+      "INCONCLUSIVE"
+    ],
+    "total_custody": "0"
+  },
+  "custody_held_by_agreements": "0"
 }

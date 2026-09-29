@@ -30,3 +30,6 @@ logs/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# throwaway keys for the browser run (never a real wallet)
+ui-run-keys.json

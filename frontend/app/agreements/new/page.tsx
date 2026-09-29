@@ -485,7 +485,7 @@ function Review({ draft, problems, goTo }: {
           {draft.requiredKinds.map((k) => KIND_WORDS[k]).join(" and ")} required, from at least{" "}
           {draft.minOrigins} independent publisher{draft.minOrigins === "1" ? "" : "s"}.{" "}
           {draft.corroboration
-            ? "An outcome resting on one party&apos;s word alone is held as inconclusive."
+            ? "An outcome resting on one party's word alone is held as inconclusive."
             : "Corroboration is not required."}
         </p>
       </section>

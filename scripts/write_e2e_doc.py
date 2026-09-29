@@ -141,6 +141,36 @@ def main() -> int:
               f"{gen(settled['amount_deposited'])} and {gen(settled['bond_deposited'])} afterwards.")
             w("")
 
+    browser = ROOT / "docs" / "ui-run.json"
+    if browser.exists():
+        b = json.loads(browser.read_text(encoding="utf-8"))
+        w("## The same thing, through the interface")
+        w("")
+        w("Everything above was sent by a script, which proves the contract and not the pages. This one")
+        w("was driven by clicking: an agreement written, locked, funded from both sides, evidence")
+        w("registered, adjudicated, finalized and settled, with every transaction signed by a wallet the")
+        w("app discovered through EIP-6963. The table is read back from the chain by")
+        w("`scripts/collect_ui_run.py`, which decodes each method from the transaction's own calldata")
+        w("rather than trusting what the browser said it did.")
+        w("")
+        w("| Called | Transaction | Consensus | Votes |")
+        w("| --- | --- | --- | --- |")
+        for t in b["transactions"]:
+            votes = ", ".join(f"{n} {v}" for v, n in t["votes"].items())
+            w(f"| `{t['method'] or 'unknown'}` | {link(t['tx'])} | {t['consensus']} | {votes} |")
+        w("")
+        failed = [t for t in b["transactions"] if t["consensus"] != "MAJORITY_AGREE"]
+        if failed:
+            w(f"{len(failed)} of those reached no majority, and they are in the table because they")
+            w("happened. Both were the advisory constraint proposal, which is a comparative round: the")
+            w("validators draft the requirements themselves and compare. Nothing was written, the")
+            w("interface said so in those words, and the requirements were then written by hand, which")
+            w("is the path that binds in any case.")
+            w("")
+        w("Reloading the page afterwards, with no wallet connected at all, still shows the finished")
+        w("record: the interface holds nothing that the chain does not.")
+        w("")
+
     recovery = ROOT / "docs" / "live-recovery.json"
     if recovery.exists():
         v = json.loads(recovery.read_text(encoding="utf-8"))
@@ -190,14 +220,23 @@ def main() -> int:
         w("Each of these is a real transaction. Validators agreed about the refusal, which is why it")
         w("appears on chain with a reason rather than as a failure somewhere off it.")
         w("")
-        w("| Sent | Refused with |")
-        w("| --- | --- |")
+        w("| Sent | Refused with | |")
+        w("| --- | --- | --- |")
         for name, wall in r["walls"].items():
             if not wall.get("refused"):
                 continue
-            reason = wall["refusal"].replace("[EXPECTED] ", "").replace("|", "\\|")
-            w(f"| {wall['step'].replace(' (refused)', '')} {link(wall['tx'])} | {reason} |")
+            reason = (wall.get("refusal") or "").replace("[EXPECTED] ", "").replace("|", "\\|")
+            how = ("the value was sent back" if wall.get("refunded")
+                   else "the transaction raised")
+            reason = reason.replace("[REFUNDED] ", "")
+            w(f"| {wall['step'].replace(' (refused)', '')} {link(wall['tx'])} | {reason} | {how} |")
         w("")
+        if any(wall.get("refunded") for wall in r["walls"].values()):
+            w("The funding refusal is the odd one out, and deliberately so. GenLayer credits a payable")
+            w("transaction's value to the contract before the call runs, so a refusal that raises would")
+            w("roll back its own refund and keep the GEN. That one refuses by returning, having sent the")
+            w("value back, which is why its transaction succeeded.")
+            w("")
 
     if r.get("protocol_after"):
         w("## Custody afterwards")

@@ -16,7 +16,10 @@ const WAITING: Record<string, string> = {
   PENDING: "Queued for a leader.",
   LEADER_PROPOSED: "A leader is executing it and proposing a result.",
   VALIDATING: "Validators are evaluating that result independently.",
-  DECIDED: "Accepted; reading the contract's own state to confirm it.",
+  // This line shows while the step is still running, so it must not say the
+  // decision has gone either way: a round can still end without a majority, and
+  // then nothing was written at all.
+  DECIDED: "Waiting for a decision, then for the contract's own state to show it.",
   FINALIZED: "Recorded. It becomes final when GenLayer's appeal window closes.",
 };
 

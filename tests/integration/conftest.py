@@ -28,6 +28,7 @@ RPC = "https://studio.genlayer.com/api"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/131.0 Safari/537.36")
 LIVE = os.environ.get("SKIP_INTEGRATION", "1") == "0"
+REFUND_MARK = "[REFUNDED]"
 
 def rpc(method, params, attempts=8):
     import urllib.request
@@ -94,19 +95,35 @@ def _patch_transport():
 
 
 def _returned(leader) -> str:
-    """The leader's return value, as text. GenLayer hands it back base64-encoded
-    calldata, so the readable part is what survives stripping the framing."""
+    """The leader's return value, as text.
+
+    Three shapes turn up for the same value: the node's receipt gives base64
+    calldata as a string, the client's get_transaction gives
+    {"raw": <base64>, ...}, and wait_for_transaction_receipt gives
+    {"payload": {"readable": "..."}}. Rather than guess which one, this looks
+    through whatever came back for the readable text, and falls back to decoding
+    the calldata.
+    """
     import base64
-    payload = leader.get("result")
-    if isinstance(payload, dict):
-        payload = payload.get("payload")
-    if not isinstance(payload, str):
+    result = leader.get("result")
+    if result is None:
         return ""
-    try:
-        raw = base64.b64decode(payload, validate=False)
-    except Exception:
-        return ""
-    return "".join(chr(b) if 32 <= b < 127 else " " for b in raw).strip()
+    blob = json.dumps(result, default=str)
+    if REFUND_MARK in blob:
+        start = blob.index(REFUND_MARK)
+        text = blob[start:]
+        for stop in ('\\"', '"', "\n"):
+            if stop in text:
+                text = text[:text.index(stop)]
+        return text.strip()
+    raw = result.get("raw") if isinstance(result, dict) else result
+    if isinstance(raw, str):
+        try:
+            decoded = base64.b64decode(raw, validate=True)
+        except Exception:
+            return ""
+        return "".join(chr(b) if 32 <= b < 127 else " " for b in decoded).strip()
+    return ""
 
 
 def _hex(tx):
